@@ -1,4 +1,6 @@
-﻿using System;
+﻿using EncoreBL.Repositories;
+using EncoreML;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,6 +10,7 @@ namespace EncoreView.Controllers
 {
     public class HomeController : Controller
     {
+        UserActions ua = new UserActions();
         public ActionResult Index()
         {
             return View();
@@ -22,9 +25,19 @@ namespace EncoreView.Controllers
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
-
             return View();
+        }
+
+        public ActionResult AddFeedback(FeedbackModel feedback)
+        {
+            bool status = ua.FeedbackBL(feedback);
+            if (status == false)
+            {
+                throw new Exception("Something went wrong");
+            }
+            else
+                return View("Index");
+
         }
     }
 }

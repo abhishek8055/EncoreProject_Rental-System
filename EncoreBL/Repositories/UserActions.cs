@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using EncoreBL.Interfaces;
 using EncoreDAL;
+using EncoreDAL.Entities;
 using EncoreML;
 using System;
 using System.Collections.Generic;
@@ -111,6 +112,50 @@ namespace EncoreBL.Repositories
                 throw e;
             }
             return user;
+        }
+
+        public bool FeedbackBL(FeedbackModel mFeedback)
+        {
+            Feedback feedback = new Feedback();
+            bool status = false;
+            Mapper.Map(mFeedback, feedback);
+            try
+            {
+                status = db.dbContext.Feedback(feedback);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            return status;
+        }
+
+        public IEnumerable<FeedbackModel> GetFeedbacks()
+        {
+            string query = "SELECT * FROM Feedback WITH (NOLOCK)";
+            List<FeedbackModel> feedbackList = new List<FeedbackModel>();
+            DataSet ds = null;
+            try
+            {
+                ds = db.dbContext.GetData(query);
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    feedbackList.Add(new FeedbackModel
+                    {
+                        Id = Convert.ToInt32(dr["Id"]),
+                        Email = Convert.ToString(dr["Email"]),
+                        Name = Convert.ToString(dr["Name"]),
+                        Subject = Convert.ToString(dr["Subject"]),
+                        Description = Convert.ToString(dr["Description"])
+                    });
+                }
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+            return feedbackList;
         }
     }
 }

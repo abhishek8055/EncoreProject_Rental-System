@@ -1,0 +1,69 @@
+﻿@model IEnumerable<EncoreML.ProductModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Add New Product", "ProductForm")
+</p>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/datatables.min.css" />
+
+<table id="products" class="table table-bordered">
+
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.PName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PDescription)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PImage1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PImage2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PImage3)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PAvailability)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PUnitCost)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PImage1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PImage2)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PImage3)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PAvailability)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PUnitCost)
+            </td>
+        </tr>
+    }
+
+</table>
+
+

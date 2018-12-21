@@ -17,7 +17,26 @@ namespace EncoreView.Controllers
         {
             IEnumerable<ProductModel> productList = null;
             productList = pa.GetProducts();
-            return View(productList);
+            UserLoginModel user = (UserLoginModel)HttpContext.Session["USER"];
+            if(user == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else if(user.RoleId == 1)
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+            else if (user.RoleId == 2)
+            {
+                return View("VendorIndex", productList);
+            }
+            else
+                return View("CustomerIndex", productList);
+        }
+
+        public ActionResult CustomerIndex()
+        {
+            return View();
         }
 
         public ActionResult ProductForm()
@@ -51,7 +70,10 @@ namespace EncoreView.Controllers
         {
             product.VendorId = 1;
             bool status = pa.UpdateProduct(product);
-
+            if (status)
+            {
+                return HttpNotFound();
+            }
             return RedirectToAction("Index", "Product");
         }
 

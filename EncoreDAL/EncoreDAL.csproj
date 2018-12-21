@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="DBAgent.cs" />
     <Compile Include="Entities\Category.cs" />
+    <Compile Include="Entities\Feedback.cs" />
     <Compile Include="Entities\Product.cs" />
     <Compile Include="ProductActionsDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

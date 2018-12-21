@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using EncoreDAL;
+using EncoreDAL.Entities;
 using EncoreML;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ namespace EncoreBL.Helper
             CreateMap<UserModel, User>();
             CreateMap<UserLogin, UserLoginModel>();
             CreateMap<UserLoginModel, UserLogin>();
+            CreateMap<FeedbackModel, Feedback>();
         }
 
         public static void Run()

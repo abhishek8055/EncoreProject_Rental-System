@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EncoreDAL.Entities;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -78,6 +79,45 @@ namespace EncoreDAL
                 }
             }
             return ds;
+        }
+
+        public bool Feedback(Feedback feedback)
+        {
+            SqlConnection con = null;
+            SqlCommand cmd = null;
+            int rowsUpdated = 0;
+            try
+            {
+                using (con = Connect())
+                using (cmd = new SqlCommand("spFeedback", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Name", feedback.Name);
+                    cmd.Parameters.AddWithValue("@Email", feedback.Email);
+                    cmd.Parameters.AddWithValue("@Subject", feedback.Subject);
+                    cmd.Parameters.AddWithValue("@Description", feedback.Description);
+                    con.Open();
+                    rowsUpdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            finally
+            {
+                if (con.State == ConnectionState.Open)
+                    con.Close();
+            }
+            if (rowsUpdated == 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 }

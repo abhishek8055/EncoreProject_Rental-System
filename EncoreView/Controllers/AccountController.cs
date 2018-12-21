@@ -26,8 +26,9 @@ namespace EncoreView.Controllers
             {
                 throw new Exception("User Not Found");
             }
-            HttpContext.Session["USER"] = user.Email;
-            return RedirectToAction("Home", "User");
+            HttpContext.Session["USER"] = user;
+            HttpContext.Session["USEREMAIL"] = user.Email;
+            return RedirectToAction("Index", "Product");
         }
     }
 }

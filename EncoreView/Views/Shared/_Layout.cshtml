@@ -24,8 +24,17 @@
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                     <li>@Html.ActionLink("Products", "Index", "Product")</li>
-                    <li>@Html.ActionLink("Users", "Index", "Users")</li>
+                    <li>@Html.ActionLink("Login", "Index", "User")</li>
+                    <li>@Html.ActionLink("SignUp", "Index", "User")</li>
                 </ul>
+                @{ string email = Convert.ToString(Session["USEREMAIL"]);
+                    if (email != null)
+                    {
+                        <ul class="nav navbar-nav navbar-right" style="color:white; padding-top:15px">
+                            <li>Welcome <b style="color:teal">@email</b></li>
+                        </ul>
+                    }
+                }
             </div>
         </div>
     </div>
