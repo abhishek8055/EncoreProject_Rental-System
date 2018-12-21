@@ -48,7 +48,8 @@ namespace EncoreView.Controllers
 
         public ActionResult Save(ProductModel product)
         {
-            product.VendorId = 1;
+            UserLoginModel user = (UserLoginModel)HttpContext.Session["USER"];
+            product.VendorId = user.Id;
             bool status = pa.AddProduct(product);
 
             return RedirectToAction("Index", "Product");

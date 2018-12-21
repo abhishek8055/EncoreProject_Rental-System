@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title | EncoreProject</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
@@ -16,25 +16,25 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("RentEncure", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("RentEncore", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("Products", "Index", "Product")</li>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right">
                     <li>@Html.ActionLink("Login", "Index", "User")</li>
                     <li>@Html.ActionLink("SignUp", "Index", "User")</li>
-                </ul>
-                @{ string email = Convert.ToString(Session["USEREMAIL"]);
-                    if (email != null)
-                    {
-                        <ul class="nav navbar-nav navbar-right" style="color:white; padding-top:15px">
+                    @*{
+                        if (email != null)
+                        {
                             <li>Welcome <b style="color:teal">@email</b></li>
-                        </ul>
-                    }
-                }
+                        }
+                    }*@
+                </ul>
+                
             </div>
         </div>
     </div>

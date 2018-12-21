@@ -10,9 +10,10 @@ namespace EncoreView.Controllers
 {
     public class HomeController : Controller
     {
-        UserActions ua = new UserActions();
+        UserActions userActionDbContext = new UserActions();
         public ActionResult Index()
         {
+            ViewBag.Email = Convert.ToString(Session["USEREMAIL"]);
             return View();
         }
 
@@ -30,7 +31,7 @@ namespace EncoreView.Controllers
 
         public ActionResult AddFeedback(FeedbackModel feedback)
         {
-            bool status = ua.FeedbackBL(feedback);
+            bool status = userActionDbContext.FeedbackBL(feedback);
             if (status == false)
             {
                 throw new Exception("Something went wrong");
