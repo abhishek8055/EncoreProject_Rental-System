@@ -30,5 +30,11 @@ namespace EncoreView.Controllers
             HttpContext.Session["USEREMAIL"] = user.Email;
             return RedirectToAction("Index", "Product");
         }
+
+        public ActionResult LogOut()
+        {
+            Session.Abandon();
+            return RedirectToAction("Index", "Home");
+        }
     }
 }
