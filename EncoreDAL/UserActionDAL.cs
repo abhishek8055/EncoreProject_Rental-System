@@ -33,18 +33,16 @@ namespace EncoreDAL
                     cmd.Parameters.AddWithValue("@Password", user.Password);
                     cmd.Parameters.AddWithValue("@RoleId", user.RoleId);
                     con.Open();
-                    rowsUpdated = cmd.ExecuteNonQuery();
-                    con.Close();
+                    rowsUpdated = cmd.ExecuteNonQuery();                  
                 }
             }
             catch (Exception e)
             {
-                throw e;
+                return false;
             }
             finally
             {
-                if (con.State == ConnectionState.Open)
-                    con.Close();
+                con.Close();
             }
             if (rowsUpdated == 0)
             {
@@ -81,6 +79,89 @@ namespace EncoreDAL
                 throw e;
             }
             return ds;
+        }
+
+        public bool AddUserDetails(User user)
+        {
+            SqlConnection con = null;
+            SqlCommand cmd = null;
+            int rowsUpdated = 0;
+            try
+            {
+                using (con = dbContext.Connect())
+                using (cmd = new SqlCommand("spAddUserDetails", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@UName", user.UName);
+                    cmd.Parameters.AddWithValue("@UEmail", user.UEmail);
+                    cmd.Parameters.AddWithValue("@UContact", user.UContact);
+                    cmd.Parameters.AddWithValue("@UAge", user.UAge);
+                    cmd.Parameters.AddWithValue("@UAddress", user.UAddress);
+                    cmd.Parameters.AddWithValue("@UPaymentId", user.UPaymentId);
+                    cmd.Parameters.AddWithValue("@UValid", user.UValid);
+                    cmd.Parameters.AddWithValue("@UPhoto", user.UPhoto);
+                    cmd.Parameters.AddWithValue("@URoleId", user.URoleId);
+                    con.Open();
+                    rowsUpdated = cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            finally
+            {
+                con.Close();
+            }
+            if (rowsUpdated == 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        public bool UpdateUserDetails(User user)
+        {
+            SqlConnection con = null;
+            SqlCommand cmd = null;
+            int rowsUpdated = 0;
+            try
+            {
+                using (con = dbContext.Connect())
+                using (cmd = new SqlCommand("spUpdateUserDetails", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@UId", user.UId);
+                    cmd.Parameters.AddWithValue("@UName", user.UName);
+                    cmd.Parameters.AddWithValue("@UEmail", user.UEmail);
+                    cmd.Parameters.AddWithValue("@UContact", user.UContact);
+                    cmd.Parameters.AddWithValue("@UAge", user.UAge);
+                    cmd.Parameters.AddWithValue("@UAddress", user.UAddress);
+                    cmd.Parameters.AddWithValue("@UPaymentId", user.UPaymentId);
+                    cmd.Parameters.AddWithValue("@UPhoto", user.UPhoto);
+                    con.Open();
+                    rowsUpdated = cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            finally
+            {
+                con.Close();
+            }
+            if (rowsUpdated == 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 }

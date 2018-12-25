@@ -1,0 +1,163 @@
+﻿@model EncoreML.ProductModel
+
+
+
+<hr />
+<div class="d-flex justify-content-center mt-3">
+    <h4><b>Product Details</b></h4>
+</div>
+<hr />
+
+
+@{
+    if (TempData["FailStatus"] != null)
+    {
+        bool failStatus = (bool)TempData["FailStatus"];
+        if (failStatus)
+        {
+            <div class="alert alert-danger" role="alert">
+                <strong>Something went wrong! </strong>Please try again later...
+            </div>
+        }
+    }
+}
+
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-md-6">
+            <br />
+            <div class="productimage">
+                <img alt="" src="../../Images/@Model.PImage1" height="410" width="100%">
+            </div>
+            <div>
+                <br /><br />
+                <label class="font-weight-bold">Product Name:&nbsp;&nbsp;</label><label id="productid">@Model.PName</label><br />
+                <label class="font-weight-bold">Price Per Day:&nbsp;&nbsp;</label><label id="view-product-id-price">&#8377;&nbsp;@Model.PUnitCost</label><br />
+                <label class="font-weight-bold">Description:&nbsp;&nbsp;</label><label id="productDescription">@Model.PDescription</label><br />
+            </div>
+        </div>
+        <div class="col-md-6" align="center">
+            <br />
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Property</th>
+                        <th scope="col">Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><label class="font-weight-bold">Price Per Day</label></td>
+                        <td><label id="view-product-price">@Model.PUnitCost</label></td>
+                    </tr>
+                    <tr>
+                        <td><label class="font-weight-bold"> Start Date</label></td>
+                        <td><label id="view-product-startdate">@Model.PStartDate.ToShortDateString()</label></td>
+                    </tr>
+                    <tr>
+                        <td><label class="font-weight-bold"> End Date</label></td>
+                        <td><label id="view-product-enddate">@Model.PEndDate.ToShortDateString()</label></td>
+                    </tr>
+                    <tr>
+                        <td><label class="font-weight-bold"> Available</label></td>
+                        <td>
+                            @{
+                                if (@Model.PAvailability == true)
+                                {
+                                    <label id="view-product-available">Yes</label>
+                                }
+                                else
+                                {
+                                    <label id="view-product-available">No</label>
+                                }
+                            }
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <hr />
+            <div class="row">
+
+                <div class="productimagesview pl-3" id="image1">
+                    <img alt="" src="~/Images/@Model.PImage1"
+                         width=100 height=100>
+                </div>
+                <div class="productimagesview px-3" id="image2">
+                    <img alt="" src="~/Images/@Model.PImage2"
+                         width=100 height=100>
+                </div>
+                <div class="productimagesview" id="image3">
+                    <img alt="" src="~/Images/@Model.PImage3"
+                         width=100 height=100>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <p class="font-weight-bold text-danger">*Start Using Product from @Model.PStartDate.ToShortDateString() to @Model.PEndDate.ToShortDateString() (mm/dd/yyyy).</p>
+    <div align="center">
+        @using (Html.BeginForm("RentProduct", "Product"))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.PStartDate, htmlAttributes: new { @class = "control-label col-12" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.PStartDate, new { htmlAttributes = new { @class = "form-control", type = "Date" } })
+                                @Html.ValidationMessageFor(model => model.PStartDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.PEndDate, htmlAttributes: new { @class = "control-label col-12" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.PEndDate, new { htmlAttributes = new { @class = "form-control", type = "Date" } })
+                                @Html.ValidationMessageFor(model => model.PEndDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.HiddenFor(model => model.PId, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.HiddenFor(model => model.PImage1, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.HiddenFor(model => model.CategoryId, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.HiddenFor(model => model.PName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.HiddenFor(model => model.PUnitCost, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.HiddenFor(model => model.VendorId, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" readonly id="totalCost" name="Name" value="&#8377;&nbsp;@Model.PUnitCost">
+                    </div>
+                    <div class="col-md-6 float-right">
+                        <br />
+                        <div class="form-group">
+                            <input type="submit" value="Apply For Rent" class="btn btn-success" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <hr />
+    <br />
+</div>
+<p>
+
+    @Html.ActionLink("Home", "Index", "User")
+</p>

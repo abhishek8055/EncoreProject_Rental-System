@@ -10,7 +10,6 @@ namespace EncoreBL.Interfaces
     interface IUser
     {
         IEnumerable<UserModel> GetUsers();
-        UserModel GetUserById(int userId);
         bool AddUser(UserLoginModel user);
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace EncoreDAL
 {
@@ -20,6 +21,11 @@ namespace EncoreDAL
         public System.DateTime PEndDate { get; set; }
         public int CategoryId { get; set; }
         public double PUnitCost { get; set; }
+
+        
+        public HttpPostedFileBase UploadImage1 { get; set; }
+        public HttpPostedFileBase UploadImage2 { get; set; }
+        public HttpPostedFileBase UploadImage3 { get; set; }
 
         public virtual Category Category { get; set; }
         public virtual User User { get; set; }

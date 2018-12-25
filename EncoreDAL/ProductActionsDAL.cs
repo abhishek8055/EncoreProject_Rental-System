@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EncoreDAL.Entities;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -138,6 +139,136 @@ namespace EncoreDAL
             catch (Exception e)
             {
                 throw e;
+            }
+            finally
+            {
+                if (con.State == ConnectionState.Open)
+                {
+                    con.Close();
+                }
+            }
+            if (rowsUpdated == 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        public bool RentNewProduct(RentProduct product)
+        {
+            SqlConnection con = null;
+            SqlCommand cmd = null;
+            int rowsUpdated = 0;
+
+            try
+            {
+                using (con = dbContext.Connect())
+                using (cmd = new SqlCommand("spRentNewProduct", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ProductId", product.ProductId);
+                    cmd.Parameters.AddWithValue("@UserId", product.UserId);
+                    cmd.Parameters.AddWithValue("@CategoryId", product.CategoryId);
+                    cmd.Parameters.AddWithValue("@VendorId", product.VendorId);
+                    cmd.Parameters.AddWithValue("@ProductName", product.ProductName);
+                    cmd.Parameters.AddWithValue("@StartDate", product.StartDate);
+                    cmd.Parameters.AddWithValue("@EndDate", product.EndDate);
+                    cmd.Parameters.AddWithValue("@PayableAmount", product.PayableAmount);
+                    cmd.Parameters.AddWithValue("@PayStatus", product.PayStatus);
+                    cmd.Parameters.AddWithValue("@ProductImage", product.ProductImage);
+                    cmd.Parameters.AddWithValue("@BookingStatus", product.BookingStatus);
+                    con.Open();
+                    rowsUpdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                }
+
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            finally
+            {
+                if (con.State == ConnectionState.Open)
+                {
+                    con.Close();
+                }
+            }
+            if (rowsUpdated == 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        public bool ApproveBookingStatus(int id)
+        {
+            SqlConnection con = null;
+            SqlCommand cmd = null;
+            int rowsUpdated = 0;
+
+            try
+            {
+                using (con = dbContext.Connect())
+                using (cmd = new SqlCommand("spApproveBooking", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Id", id);
+                    con.Open();
+                    rowsUpdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                }
+            }
+            catch (Exception e)
+            {
+                //USE LOGGER
+                return false;
+            }
+            finally
+            {
+                if (con.State == ConnectionState.Open)
+                {
+                    con.Close();
+                }
+            }
+            if (rowsUpdated == 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        public bool MakeProductUnavailable(int id)
+        {
+            SqlConnection con = null;
+            SqlCommand cmd = null;
+            int rowsUpdated = 0;
+
+            try
+            {
+                using (con = dbContext.Connect())
+                using (cmd = new SqlCommand("spMakeProductUnavailable", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Id", id);
+                    con.Open();
+                    rowsUpdated = cmd.ExecuteNonQuery();
+                    con.Close();
+                }
+            }
+            catch (Exception e)
+            {
+                //USE LOGGER
+                return false;
             }
             finally
             {

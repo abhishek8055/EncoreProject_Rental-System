@@ -1,0 +1,104 @@
+﻿@model IEnumerable<EncoreML.RentProductModel>
+
+@{
+    ViewBag.Title = "My Orders";
+}
+
+<hr />
+<div class="d-flex justify-content-center">
+    <h3><b>My Orders</b></h3>
+</div>
+<hr />
+
+@{
+    if (TempData["FailStatus"] != null)
+    {
+        bool failStatus = (bool)TempData["FailStatus"];
+        if (!failStatus)
+        {
+            <div class="alert alert-success" role="alert">
+                <strong>Order successfully placed! </strong>Please wait for approval...
+            </div>
+        }
+    }
+}
+
+<table class="table table-bordered table-hover">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EndDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PayableAmount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PayStatus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductImage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BookingStatus)
+        </th>
+        <th>
+            Actions
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PayableAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PayStatus)
+                @{
+                    if (item.PayStatus)
+                    {
+                        <b class="text-success">Amount paid</b>
+                    }
+                    else
+                    {
+                        <b class="text-danger">Not Paid</b>
+                    }
+                }
+            </td>
+            <td>
+                <img src="~/Images/@Html.DisplayFor(modelItem => item.ProductImage)"
+                     style="width: 150px; height: 180px;"
+                     class="rounded mx-auto d-block">
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BookingStatus)
+                @if (item.BookingStatus)
+                {
+                    <b class="text-success">Approved</b>
+                }else{
+                    <b class="text-danger">Not Approved</b>
+                }
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Cancel", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>

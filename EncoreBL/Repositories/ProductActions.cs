@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using EncoreBL.Interfaces;
 using EncoreDAL;
+using EncoreDAL.Entities;
 using EncoreML;
 using System;
 using System.Collections.Generic;
@@ -99,6 +100,45 @@ namespace EncoreBL.Repositories
             return productList;
         }
 
+        public IEnumerable<ProductModel> GetProductsByVendorId(int vendorId)
+        {
+            string query = "SELECT * FROM Products WHERE VendorId="+ vendorId;
+            List<ProductModel> productList = new List<ProductModel>();
+            DataSet ds = null;
+            try
+            {
+                ds = db.dbContext.GetData(query);
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    productList.Add(new ProductModel
+                    {
+                        PId = Convert.ToInt32(dr["PId"]),
+                        VendorId = Convert.ToInt32(dr["VendorId"]),
+                        PName = Convert.ToString(dr["PName"]),
+                        PDescription = Convert.ToString(dr["PDescription"]),
+                        PImage1 = Convert.ToString(dr["PImage1"]),
+                        PImage2 = Convert.ToString(dr["PImage2"]),
+                        PImage3 = Convert.ToString(dr["PImage3"]),
+                        PAvailability = Convert.ToBoolean(dr["PAvailability"]),
+                        PStartDate = Convert.ToDateTime(dr["PStartDate"]),
+                        PEndDate = Convert.ToDateTime(dr["PEndDate"]),
+                        PUnitCost = Convert.ToDouble(dr["PUnitCost"]),
+                        CategoryId = Convert.ToInt32(dr["CategoryId"])
+                    });
+                }
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+            finally
+            {
+
+            }
+            return productList;
+        }
+
         public IEnumerable<CategoryModel> GetCategories()
         {
             string query = "SELECT * FROM Category WITH (NOLOCK)";
@@ -146,6 +186,118 @@ namespace EncoreBL.Repositories
             try
             {
                 status = db.DeleteProduct(id);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            return status;
+        }
+
+        public bool RentNewProduct(RentProductModel rentProductModel)
+        {
+            RentProduct rentProduct = new RentProduct();
+            bool status = false;
+            Mapper.Map(rentProductModel, rentProduct);
+            try
+            {
+                status = db.RentNewProduct(rentProduct);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            return status;
+        }
+
+        public IEnumerable<RentProductModel> GetRentedProductsByUserId(int id)
+        {
+            string query = "SELECT * FROM RentProduct WHERE UserId="+id;
+            List<RentProductModel> productList = new List<RentProductModel>();
+            DataSet ds = null;
+            try
+            {
+                ds = db.dbContext.GetData(query);
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    productList.Add(new RentProductModel
+                    {
+                        Id = Convert.ToInt32(dr["Id"]),
+                        ProductId = Convert.ToInt32(dr["ProductId"]),
+                        UserId = Convert.ToInt32(dr["UserId"]),
+                        CategoryId = Convert.ToInt32(dr["CategoryId"]),
+                        VendorId = Convert.ToInt32(dr["VendorId"]),
+                        ProductName = Convert.ToString(dr["ProductName"]),
+                        StartDate = Convert.ToDateTime(dr["StartDate"]),
+                        EndDate = Convert.ToDateTime(dr["EndDate"]),
+                        PayableAmount = Convert.ToInt32(dr["PayableAmount"]),
+                        PayStatus = Convert.ToBoolean(dr["PayStatus"]),
+                        ProductImage = Convert.ToString(dr["ProductImage"]),                       
+                        BookingStatus = Convert.ToBoolean(dr["BookingStatus"])
+                    });
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            return productList;
+        }
+
+        public IEnumerable<RentProductModel> GetRentedProductsByVendorId(int vendorId)
+        {
+            string query = "SELECT * FROM RentProduct WHERE VendorId=" + vendorId;
+            List<RentProductModel> productList = new List<RentProductModel>();
+            DataSet ds = null;
+            try
+            {
+                ds = db.dbContext.GetData(query);
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    productList.Add(new RentProductModel
+                    {
+                        Id = Convert.ToInt32(dr["Id"]),
+                        ProductId = Convert.ToInt32(dr["ProductId"]),
+                        UserId = Convert.ToInt32(dr["UserId"]),
+                        CategoryId = Convert.ToInt32(dr["CategoryId"]),
+                        VendorId = Convert.ToInt32(dr["VendorId"]),
+                        ProductName = Convert.ToString(dr["ProductName"]),
+                        StartDate = Convert.ToDateTime(dr["StartDate"]),
+                        EndDate = Convert.ToDateTime(dr["EndDate"]),
+                        PayableAmount = Convert.ToInt32(dr["PayableAmount"]),
+                        PayStatus = Convert.ToBoolean(dr["PayStatus"]),
+                        ProductImage = Convert.ToString(dr["ProductImage"]),
+                        BookingStatus = Convert.ToBoolean(dr["BookingStatus"])
+                    });
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            return productList;
+        }
+
+        public bool ApproveBookingStatus(int productId)
+        {
+            bool status = false;
+            try
+            {
+                status = db.ApproveBookingStatus(productId);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            return status;
+        }
+
+        public bool MakeProductUnavailable(int productId)
+        {
+            bool status = false;
+            try
+            {
+                status = db.MakeProductUnavailable(productId);
             }
             catch (Exception e)
             {

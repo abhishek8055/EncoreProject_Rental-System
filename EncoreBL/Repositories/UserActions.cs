@@ -21,26 +21,20 @@ namespace EncoreBL.Repositories
             UserLogin user = new UserLogin();
             bool status = false;
             Mapper.Map(mUser, user);
-            try
-            {
-                status = db.RegisterUser(user);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
+            status = db.RegisterUser(user);
             return status;
         }
 
-        public UserModel GetUserById(int userId)
+        public UserModel GetUserByEmail(string emailId, int roleId)
         {
-            UserModel user = null;
-            string query = "SELECT * FROM Users WHERE UId=" + userId;
+            UserModel user = new UserModel();
+            string query = "SELECT * FROM Users WHERE UEmail='"+emailId+"' AND URoleId="+roleId;
             DataSet ds = null;
-
             try
             {
                 ds = db.dbContext.GetData(query);
+                user.UId = Convert.ToInt32(ds.Tables[0].Rows[0]["UId"]);
+                user.URoleId = Convert.ToInt32(ds.Tables[0].Rows[0]["URoleId"]);
                 user.UName = Convert.ToString(ds.Tables[0].Rows[0]["UName"]);
                 user.UEmail = Convert.ToString(ds.Tables[0].Rows[0]["UEmail"]);
                 user.UContact = Convert.ToString(ds.Tables[0].Rows[0]["UContact"]);
@@ -52,7 +46,7 @@ namespace EncoreBL.Repositories
             }
             catch(Exception e)
             {
-                throw e;
+                return null;
             }
             return user;
         }
@@ -82,12 +76,7 @@ namespace EncoreBL.Repositories
             }
             catch (Exception e)
             {
-
                 throw e;
-            }
-            finally
-            {
-
             }
             return userList;
         }
@@ -99,13 +88,14 @@ namespace EncoreBL.Repositories
             try
             {
                 ds = db.ValidUser(email, password);
-                if(ds == null)
+                if(ds.Tables[0].Rows.Count == 0)
                 {
                     return null;
                 }
                 user.Email = Convert.ToString(ds.Tables[0].Rows[0]["Email"]);
                 user.Password = Convert.ToString(ds.Tables[0].Rows[0]["Password"]);
                 user.RoleId = Convert.ToInt32(ds.Tables[0].Rows[0]["RoleId"]);
+                user.Id = Convert.ToInt32(ds.Tables[0].Rows[0]["Id"]);
             }
             catch (Exception e)
             {
@@ -152,10 +142,29 @@ namespace EncoreBL.Repositories
             }
             catch (Exception e)
             {
-
                 throw e;
             }
             return feedbackList;
         }
+
+        public bool AddUserDetails(UserModel mUser)
+        {
+            User user = new User();
+            bool status = false;
+            Mapper.Map(mUser, user);
+            status = db.AddUserDetails(user);
+            return status;
+        }
+
+        public bool UpdateUserDetails(UserModel mUser)
+        {
+            User user = new User();
+            bool status = false;
+            Mapper.Map(mUser, user);
+            status = db.UpdateUserDetails(user);
+            return status;
+        }
+
+
     }
 }

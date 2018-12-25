@@ -4,12 +4,11 @@
     ViewBag.Title = "Feedback List";
 }
 
-<h2>Feedback List</h2>
+<div class="mt-4 text-dark">
+    <h4><b>Feedback List</b></h4>
+</div>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table table-bordered table-hover">
+<table class="table table-bordered table-hover mb-5">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Name)
@@ -23,7 +22,7 @@
         <th>
             @Html.DisplayNameFor(model => model.Description)
         </th>
-        <th></th>
+        <th>Action</th>
     </tr>
 
 @foreach (var item in Model) {

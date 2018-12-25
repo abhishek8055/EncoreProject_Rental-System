@@ -4,12 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.Web;
 
 namespace EncoreML
 {
     public class ProductModel
     {
+        [Display(Name ="Product id")]
         public int PId { get; set; }
+
+        [Display(Name ="Vendor id")]
         public int VendorId { get; set; }
 
         [Display(Name="Name")]
@@ -18,7 +22,7 @@ namespace EncoreML
         [Display(Name = "Description")]
         public string PDescription { get; set; }
 
-        [Display(Name = "Image 1")]
+        [Display(Name = "Display Picture")]
         public string PImage1 { get; set; }
 
         [Display(Name = "Image 2")]
@@ -44,5 +48,16 @@ namespace EncoreML
 
         public virtual CategoryModel Category { get; set; }
         public virtual UserModel User { get; set; }
+
+        [Display(Name = "Upload Image 1")]
+        [Required(ErrorMessage = "Upload Image 1")]
+        public HttpPostedFileBase UploadImage1 { get; set; }
+
+
+        [Display(Name = "Upload Image 2")]
+        public HttpPostedFileBase UploadImage2 { get; set; }
+
+        [Display(Name = "Upload Image 3")]
+        public HttpPostedFileBase UploadImage3 { get; set; }
     }
 }

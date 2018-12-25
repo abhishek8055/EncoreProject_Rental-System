@@ -15,39 +15,40 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-md bg-dark navbar-dark myNavbar">
-        <a class="navbar-brand" href="#">RentEncore</a>
+        <div class="navbar-brand"><b>@Html.ActionLink("RentEncore", "Index", "Home", null, new { @class = "text-white" })</b></div>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
             <ul class="navbar-nav">
-                <li class="nav-item mx-2">
-                    @Html.ActionLink("About", "About", "Home")
+                <li class="nav-item mx-2 text-white-50">
+                    @Html.ActionLink("About", "About", "Home", null, new { @class = "text-white" })
                 </li>
                 <li class="nav-item">
-                    @Html.ActionLink("Contact", "Contact", "Home")
+                    @Html.ActionLink("Contact", "Contact", "Home", null, new { @class = "text-white" })
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
                 @{
+                    int roleId = Convert.ToInt32(Session["ROLE"]);
                     string email = Convert.ToString(Session["USEREMAIL"]);
                     if (!String.IsNullOrEmpty(email))
                     {
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                                Welcome&nbsp;&nbsp;<b style="color:teal">@email</b>&nbsp;<span class="glyphicon glyphicon-triangle-bottom"></span>
+                            <a class="nav-link dropdown-toggle text-white" href="#" id="navbardrop" data-toggle="dropdown">
+                                Welcome&nbsp;&nbsp;<b style="color:teal">@email</b><span class="glyphicon glyphicon-triangle-bottom"></span>
                             </a>
-                            <div class="dropdown-menu text-center">
-                                <div>@Html.ActionLink("My Account", "GetUserById", "User")</div>
-                                <div>@Html.ActionLink("My Orders", "Orders", "Product")</div>
+                            <div class="dropdown-menu pl-2">
+                                <div>@Html.ActionLink("My Account", "UserDetails", "User", new { email=@email, roleId=@roleId}, null)</div>
+                                <div>@Html.ActionLink("My Orders", "MyOrders", "User")</div>
                                 <div>@Html.ActionLink("Logout", "LogOut", "Account")</div>
                             </div>
                         </li>
                     }
                     else
                     {
-                        <li class="nav-item mx-2">@Html.ActionLink("Login", "Index", "User")</li>
-                        <li class="nav-item">@Html.ActionLink("SignUp", "Index", "User")</li>
+                        <li class="nav-item mx-4">@Html.ActionLink("Login", "Index", "Account", null, new { @class = "text-white" })</li>
+                        <li class="nav-item">@Html.ActionLink("SignUp", "Index", "Account", null, new { @class = "text-white" })</li>
                     }
                 }
 
@@ -85,19 +86,19 @@
                             <li class="d-flex align-items-center">
                                 <div><img src="~/Images/footer1.jpg" width="50" height="50"></div>
                                 <div>
-                                    <p class="mb-1"> <a href="#">Blog post one</a></p>
+                                    <p class="mb-1"> <a href="#" class="text-white-50">Blog post one</a></p>
                                 </div>
                             </li>
-                            <li class="d-flex align-items-center">
+                            <li class="d-flex align-items-center my-2">
                                 <div><img src="~/Images/footer2.jpg" width="50" height="50"></div>
                                 <div>
-                                    <p class="mb-0"> <a href="#">Blog post two</a></p>
+                                    <p class="mb-0"> <a href="#" class="text-white-50">Blog post two</a></p>
                                 </div>
                             </li>
                             <li class="d-flex align-items-center">
                                 <div><img src="~/Images/footer3.jpg" width="50" height="50"></div>
                                 <div>
-                                    <p class="mb-0"> <a href="#">Blog post three</a></p>
+                                    <p class="mb-0"> <a href="#" class="text-white-50">Blog post three</a></p>
                                 </div>
                             </li>
                         </ul>
@@ -114,9 +115,9 @@
         </footer>
 
         <!-- FOOTER TWO STARTS -->
-        <div class="row" id="footer2">
+        <div class="row bg-secondary text-white" id="footer2">
             <div class="container">
-                <div class="col-md-12"><p style="font-size:14px"><p>&copy; @DateTime.Now.Year - My ASP.NET Application</p></div>
+                <div class="col-md-12"><p style="font-size:14px"><p>&copy; @DateTime.Now.Year - Training Project Abhishek Dwivedi</p></div>
             </div>
         </div>
         <!-- FOOTER TWO ENDS -->

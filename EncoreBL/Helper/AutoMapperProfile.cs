@@ -16,6 +16,8 @@ namespace EncoreBL.Helper
         {
             CreateMap<Product, ProductModel>();
             CreateMap<ProductModel, Product>();
+            CreateMap<RentProductModel, RentProduct>();
+            CreateMap<RentProduct, RentProductModel>();
             CreateMap<User, UserModel>();
             CreateMap<UserModel, User>();
             CreateMap<UserLogin, UserLoginModel>();

@@ -10,17 +10,22 @@ namespace EncoreView.Controllers
 {
     public class AdminController : Controller
     {
-        UserActions ua = new UserActions();
-        // GET: Admin
+        UserActions userActionContext = new UserActions();
+        ProductActions productActionContext = new ProductActions();
+
+        // GET: GET ALL PRODUCTS
         public ActionResult Index()
         {
-            return View();
+            IEnumerable<ProductModel> productList = null;
+            productList = productActionContext.GetProducts();
+            return View(productList);
         }
 
+        //GET: GET ALL FEEDBACKS
         public ActionResult FeedbackList()
         {
             IEnumerable<FeedbackModel> feedbackList = null;
-            feedbackList = ua.GetFeedbacks();
+            feedbackList = userActionContext.GetFeedbacks();
             return View(feedbackList);
         }
     }

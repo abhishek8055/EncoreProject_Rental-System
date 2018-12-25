@@ -1,0 +1,147 @@
+﻿@model EncoreML.UserModel
+
+@{
+    ViewBag.Title = "User Details";
+}
+
+<hr />
+<div class="d-flex justify-content-center">
+    <h3><b>My Details</b></h3>
+</div>
+<hr />
+
+@{
+    if (TempData["UpdateFail"] != null)
+    {
+        bool failed = (bool)TempData["UpdateFail"];
+        if (failed)
+        {
+            <div class="alert alert-danger" role="alert">
+                <strong>Something went wrong! </strong>Please try again later...
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-success" role="alert">
+                <strong>Profile updated successfully...</strong>
+            </div>
+        }
+    }
+}
+
+
+
+    @using (Html.BeginForm("UpdateUserProfile", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal container">
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            @Html.EditorFor(model => model.UId, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
+            @Html.EditorFor(model => model.URoleId, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
+            <div class="row">
+                <div class="col-8">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.UName, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.UName, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.UName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.UEmail, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.UEmail, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.UEmail, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.UAge, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.UAge, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.UAge, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.UPaymentId, htmlAttributes: new { @class = "control-label col-md-12" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.UPaymentId, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.UPaymentId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.UContact, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.UContact, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.UContact, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.UValid, htmlAttributes: new { @class = "control-label col-md-12" })
+                                <div class="col-md-10">
+                                    <div class="checkbox">
+                                        @Html.EditorFor(model => model.UValid)
+                                        @Html.ValidationMessageFor(model => model.UValid, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.UAddress, htmlAttributes: new { @class = "control-label col-12" })
+                                <div class="col-md-12">
+                                    @Html.TextAreaFor(model => model.UAddress, new { htmlAttributes = new { @class = "form-control col-md-12" } })
+                                    @Html.ValidationMessageFor(model => model.UAddress, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-4">
+                    <div class="form-group">
+                        <img src="~/Images/Users/@Html.DisplayFor(model => model.UPhoto)"
+                             style="width: 225px; height: 250px;"
+                             class="rounded mx-auto d-block">
+                        <div class="col-12 mt-2 ml-5">
+                            <input type="file" name="UploadImage" accept="image/x-png,image/gif,image/jpeg, image/jpg" class="form-control-file" />
+                            @Html.ValidationMessageFor(model => model.UploadImage, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 d-flex justify-content-center">
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Save" class="btn btn-danger" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    <div>
+        @Html.ActionLink("Back to Home", "Index", "User")
+    </div>

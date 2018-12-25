@@ -155,6 +155,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\footer1.jpg" />
+    <Content Include="Images\footer3.jpg" />
+    <Content Include="Images\footer2.jpg" />
     <Content Include="Images\car1.jpeg" />
     <Content Include="Images\car2.jpeg" />
     <Content Include="Images\car3.jpg" />
@@ -188,20 +191,24 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Product\VendorIndex.cshtml" />
-    <Content Include="Views\Product\ProductForm.cshtml" />
+    <Content Include="Views\User\VendorIndex.cshtml" />
     <Content Include="Views\Product\EditProduct.cshtml" />
-    <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\Product\CustomerIndex.cshtml" />
-    <Content Include="Views\Product\AdminIndex.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Admin\FeedbackList.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\Product\ProductForm.cshtml" />
+    <Content Include="Views\Product\ProductDetails.cshtml" />
+    <Content Include="Views\User\UserDetails.cshtml" />
+    <Content Include="Views\User\MyOrders.cshtml" />
+    <Content Include="Views\User\ProductOrderList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Images\Users\" />
     <Folder Include="Models\" />
-    <Folder Include="Views\Account\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

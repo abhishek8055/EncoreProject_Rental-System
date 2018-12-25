@@ -1,0 +1,133 @@
+﻿@model EncoreML.UserModel
+
+
+@{
+    ViewBag.Title = "Register | Login";
+}
+
+    <div class="row my-5">
+        <div class="col-md-5 offset-1">
+            <hr>
+            <h4><b>NEW ACCOUNT</b></h4>
+            <h5 class="text-danger">Not our registered customer yet?</h5>
+            <br>
+            <h5 class="text-dark">
+                with registration with us new world of fashion, fantastic discounts and much more
+                opens to you! The whole process will not take you more than a minute!
+            </h5>
+            <br>
+            <h5 style="color:#A9A9A9">
+                if you have any question, please feel free to <a href="~/Views/Home/Contact.cshtml" style="color:#20B2AA">contact us</a>,
+                our customer care service center is working for you 24/7.
+            </h5>
+            <hr>
+
+            @{
+                if (TempData["EmailExists"] != null)
+                {
+                    bool emailExists = (bool)TempData["EmailExists"];
+                    if (emailExists)
+                    {
+                        <div class="alert alert-danger" role="alert">
+                            <strong>Email already exists!</strong> Please try with different email account...
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-success" role="alert">
+                            <strong>Registration successful!</strong> Please login to continue.
+                        </div>
+                    }
+                }
+
+                if (TempData["PasswordMissMatch"] != null)
+                {
+                    bool passwordNotMatch = (bool)TempData["PasswordMissMatch"];
+                    if (passwordNotMatch)
+                    {
+                        <div class="alert alert-danger" role="alert">
+                            <strong>Password did not match!</strong> Please try again later...
+                        </div>
+                    }
+                }
+            }
+
+            @using (Html.BeginForm("RegisterUser", "User"))
+            {
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" name="email">
+                </div>
+
+                <div class="form-group">
+                    <label for="desc">Password:</label>
+                    <input type="password" class="form-control" name="password" id="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="desc">Confirm Password:</label>
+                    <input type="password" class="form-control" name="rpassword" id="rpassword" required>
+                </div>
+
+                <div class="form-group">
+                    <span class="error" style="color:red"></span><br />
+                </div>
+
+                <div class="form-group">
+                    <label for="userType">User Type</label>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <select name="userType" class="btn btn-light" style="border: 1px solid black">
+                        <option selected="selected">--Select one--</option>
+                        <option value="2">Vendor</option>
+                        <option value="3">Customer</option>
+                    </select>
+                </div>
+                <br />
+                <div>
+                    <button class="btn btn-info" type="submit" name="submit">
+                        <span class="glyphicon glyphicon-user"></span>&nbsp;Register
+                    </button>
+                </div>
+            }
+            <hr>
+        </div>
+
+        
+        <div class="col-md-5 offset-1">
+            <hr>
+            <h4><b>LOGIN</b></h4>
+            <h5 class="text-success">Already our customer?</h5>
+            <br>
+            <h5 class="text-dark">Get access to your orders, Wishlist and Recommendations.</h5>
+
+            <hr>
+            @using (Html.BeginForm("UserLogin", "Account"))
+            {
+                if (TempData["WrongDetails"] != null)
+                {
+                    bool wrongDetails = (bool)TempData["WrongDetails"];
+                    if (wrongDetails)
+                    {
+                        <div class="alert alert-danger" role="alert">
+                            <strong>Wrong credentials!</strong> Please enter correct credentials...
+                        </div>
+                    }
+                }
+
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="pwd">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-info" type="submit" name="btn"><span class="glyphicon glyphicon-log-in"></span>&nbsp;LOG IN</button>
+                </div>
+            }
+            <hr>
+
+        </div>
+    </div>

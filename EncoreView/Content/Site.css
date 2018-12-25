@@ -31,3 +31,7 @@ textarea {
     font-size: 14px;
 }
 
+.product{
+    border: 1px solid grey;
+    margin-bottom: auto;
+}

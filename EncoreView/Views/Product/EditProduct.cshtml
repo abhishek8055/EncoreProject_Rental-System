@@ -1,113 +1,158 @@
 ﻿@model EncoreML.ProductModel
 
 @{
-    ViewBag.Title = "EditProduct";
+    ViewBag.Title = "Edit Product";
 }
 
-<h2>EditProduct</h2>
+<hr />
+<div class="d-flex justify-content-center mt-3">
+    <h4><b>Update Product</b></h4>
+</div>
+<hr />
 
+@{
+    if (TempData["UpdateFail"] != null)
+    {
+        bool updateFail = (bool)TempData["UpdateFail"];
+        if (updateFail)
+        {
+            <div class="alert alert-danger" role="alert">
+                <strong>Something went wrong! </strong>Please try again later...
+            </div>
+        }
+    }
+}
 
-@using (Html.BeginForm("Update", "Product"))
+@using (Html.BeginForm("Update", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
-        <h4>ProductModel</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.PId, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.PId, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.PId, "", new { @class = "text-danger" })
+        <div class="row mt-4">
+            <div class="col-3">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PId, htmlAttributes: new { @class = "control-label col-12" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.PId, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.PId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
             </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.PName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.PName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.PName, "", new { @class = "text-danger" })
+            <div class="col-3">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PName, htmlAttributes: new { @class = "control-label col-12" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.PName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.PName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
             </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.PDescription, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.PDescription, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.PDescription, "", new { @class = "text-danger" })
+            <div class="col-3">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PDescription, htmlAttributes: new { @class = "control-label col-12" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.PDescription, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.PDescription, "", new { @class = "text-danger" })
+                    </div>
+                </div>
             </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.PImage1, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.PImage1, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.PImage1, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.PImage2, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.PImage2, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.PImage2, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.PImage3, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.PImage3, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.PImage3, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.PAvailability, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.PAvailability)
-                    @Html.ValidationMessageFor(model => model.PAvailability, "", new { @class = "text-danger" })
+            <div class="col-3">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PAvailability, htmlAttributes: new { @class = "control-label col-12" })
+                    <div class="col-md-10">
+                        <div class="checkbox">
+                            @Html.EditorFor(model => model.PAvailability)
+                            @Html.ValidationMessageFor(model => model.PAvailability, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.PStartDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.PStartDate, new { htmlAttributes = new { @class = "form-control", type="Date" } })
-                @Html.ValidationMessageFor(model => model.PStartDate, "", new { @class = "text-danger" })
+        <div class="row mt-4">
+            <div class="col-3">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PStartDate, htmlAttributes: new { @class = "control-label col-12" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.PStartDate, new { htmlAttributes = new { @class = "form-control", type = "Date" } })
+                        @Html.ValidationMessageFor(model => model.PStartDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PEndDate, htmlAttributes: new { @class = "control-label col-12" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.PEndDate, new { htmlAttributes = new { @class = "form-control", type = "Date" } })
+                        @Html.ValidationMessageFor(model => model.PEndDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CategoryId, htmlAttributes: new { @class = "control-label col-12" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.CategoryId, new SelectList(ViewBag.Category, "CId", "CName"), "- Please Select -", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PUnitCost, htmlAttributes: new { @class = "control-label col-12" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.PUnitCost, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.PUnitCost, "", new { @class = "text-danger" })
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.PEndDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.PEndDate, new { htmlAttributes = new { @class = "form-control", type = "Date" } })
-                @Html.ValidationMessageFor(model => model.PEndDate, "", new { @class = "text-danger" })
+        <div class="row mt-4">
+            <div class="col-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.UploadImage1, htmlAttributes: new { @class = "control-label" })
+                    <img src="~/Images/@Model.PImage1"
+                         style="width: 100%; height: 250px;"
+                         class="rounded mx-auto d-block">
+                    <div class="col-md-10 mt-2">
+                        <input type="file" name="UploadImage1" accept="image/x-png,image/gif,image/jpeg, image/jpg" class="form-control-file" />
+                        @Html.ValidationMessageFor(model => model.UploadImage1, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.UploadImage2, htmlAttributes: new { @class = "control-label" })
+                    <img src="~/Images/@Model.PImage2"
+                         style="width: 100%; height: 250px;"
+                         class="rounded mx-auto d-block">
+                    <div class="col-md-10 mt-2">
+                        <input type="file" name="UploadImage2" accept="image/x-png,image/gif,image/jpeg, image/jpg" class="form-control-file" />
+                        @Html.ValidationMessageFor(model => model.UploadImage2, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.UploadImage3, htmlAttributes: new { @class = "control-label" })
+                    <img src="~/Images/@Model.PImage3"
+                         style="width: 100%; height: 250px;"
+                         class="rounded mx-auto d-block">
+                    <div class="col-md-10 mt-2">
+                        <input type="file" name="UploadImage3" accept="image/x-png,image/gif,image/jpeg, image/jpg" class="form-control-file" />
+                        @Html.ValidationMessageFor(model => model.UploadImage3, "", new { @class = "text-danger" })
+                    </div>
+                </div>
             </div>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.CategoryId, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.CategoryId, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.PUnitCost, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.PUnitCost, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.PUnitCost, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+        <div class="row mt-4">
+            <div class="col-12 d-flex justify-content-center">
+                <div class="form-group">
+                    <input type="submit" value="Update" class="btn btn-success" />
+                </div>
             </div>
         </div>
     </div>

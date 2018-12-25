@@ -1,8 +1,122 @@
-﻿
+﻿@*ADMIN INDEX*@
+
+@model IEnumerable<EncoreML.ProductModel>
+
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Admin Page";
 }
 
-<h2>Admin Dashboard</h2>
-@Html.ActionLink("Feedback List", "FeedbackList", "Admin", new { @class = "btn btn-success" })
+<hr />
+<div class="d-flex justify-content-center">
+    <h3><b>Admin Dashboard</b></h3>
+</div>
+<hr />
 
+
+<div class="row">
+    <div class="col-6">
+        <h5><b>Products</b></h5>
+    </div>
+    <div class="col-6 d-flex justify-content-end">
+        <p>
+            @Html.ActionLink("Feedback List", "FeedbackList", "Admin", null, new { @class = "btn btn-success" })
+        </p>
+    </div>
+</div>
+
+@{
+    if (TempData["Deleted"] != null)
+    {
+        bool deleted = (bool)TempData["Deleted"];
+        if (deleted)
+        {
+            <div class="alert alert-danger" role="alert">
+                <strong>Product deleted successfully...</strong>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-danger" role="alert">
+                <strong>Something went wrong!</strong> Please try again later...
+            </div>
+        }
+    }
+
+    if (TempData["UpdateFail"] != null)
+    {
+        bool updatefail = (bool)TempData["UpdateFail"];
+        if (!updatefail)
+        {
+            <div class="alert alert-success" role="alert">
+                <strong>Product successfully updated!</strong>
+            </div>
+        }
+    }
+}
+
+<table class="table table-bordered table-hover mb-5">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.PId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VendorId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PAvailability)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PStartDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PEndDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CategoryId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PUnitCost)
+        </th>
+        <th>
+            Action
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VendorId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PAvailability)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PStartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PEndDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CategoryId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PUnitCost)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditProduct", "Product", new { id = item.PId }, null) |
+                @Html.ActionLink("Delete", "Delete", "Product", new { id = item.PId }, null)
+            </td>
+        </tr>
+    }
+
+</table>
