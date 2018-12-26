@@ -8,10 +8,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
+//@AUTHOR ABHISHEK DWIVEDI
+
+//DBAGENT CLASS IS A DATA ACCESS LAYER CLASS
+//MAINTAINS THE DATABASE CONNECTIVITY
+//HANDLES SOME COMMON DATABASE QUERIES
+
 namespace EncoreDAL
 {
     public class DBAgent
     {
+        //SINGLETON DESIGN PATTERN
         private static DBAgent dbAgent;
         public static DBAgent dbAgentInstance
         {
@@ -24,6 +32,8 @@ namespace EncoreDAL
                 return dbAgent;
             }
         }
+
+        //DATABASE CONNECTIVITY METHOD
         public SqlConnection Connect()
         {
             string connectionString = ConfigurationManager.ConnectionStrings["MyDBConnection"].ConnectionString;
@@ -34,6 +44,7 @@ namespace EncoreDAL
             }
             catch (Exception sqle)
             {
+                //LOG EXCEPTION
                 throw sqle;
             }
             finally
@@ -46,6 +57,7 @@ namespace EncoreDAL
             return con;
         }
 
+        //GET: METHOD
         public DataSet GetData(string query)
         {
             DataSet ds = new DataSet();
@@ -61,6 +73,7 @@ namespace EncoreDAL
             }
             catch (Exception sqle)
             {
+                //LOG EXCEPTION
                 throw sqle;
             }
             finally
@@ -81,6 +94,7 @@ namespace EncoreDAL
             return ds;
         }
 
+        //METHOD TO INSERT FEEDBACK FROM USERS
         public bool Feedback(Feedback feedback)
         {
             SqlConnection con = null;
@@ -88,6 +102,8 @@ namespace EncoreDAL
             int rowsUpdated = 0;
             try
             {
+                //AUTO DISPOSABLE
+                //STORED PROCEDURE spFeedback
                 using (con = Connect())
                 using (cmd = new SqlCommand("spFeedback", con))
                 {
@@ -103,7 +119,9 @@ namespace EncoreDAL
             }
             catch (Exception e)
             {
+                //LOG EXCEPTION
                 throw e;
+                //return false;
             }
             finally
             {

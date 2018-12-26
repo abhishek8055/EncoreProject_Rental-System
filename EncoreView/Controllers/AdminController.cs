@@ -6,11 +6,17 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+//@AUTHOR ABHISHEK DWIVEDI
+//ADMIN CONTROLLER MANAGES ALL ADMIN RELATED TASKS
+
+
 namespace EncoreView.Controllers
 {
     public class AdminController : Controller
     {
+        //GET: INSTANCE OF USERACTIONS CLASS OF BUSINESS LAYER
         UserActions userActionContext = new UserActions();
+        //GET: INSTANCE OF PRODUCTACTIONS CLASS OF BUSINESS LAYER
         ProductActions productActionContext = new ProductActions();
 
         // GET: GET ALL PRODUCTS

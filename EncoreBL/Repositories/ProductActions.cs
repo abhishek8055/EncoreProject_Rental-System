@@ -10,12 +10,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+//@AUTHOR ABHISHEK DWIVEDI
+//PRODUCT_ACTIONS CLASS IS A BUSINESS LAYER CLASS WHICH IMPLEMENTS IPRODUCT INTERFACE 
+//PRODUCT_ACTIONS CLASS MAPS ALL PRODUCT RELATED QUERIES TO THE PRODUCT_ACTIONS_DAL (DAL) CLASS
+
 namespace EncoreBL.Repositories
 {
     public class ProductActions : IProduct
     {
+        //GET: INSTANCE OF PRODUCT_ACTIONS_DAL (DAL CLASS)
         ProductActionsDAL db = new ProductActionsDAL();
 
+        //POST: ADD NEW PRODUCT TO THE DATABASE
         public bool AddProduct(ProductModel productModel)
         {
             Product product = new Product();
@@ -27,11 +33,14 @@ namespace EncoreBL.Repositories
             }
             catch(Exception e)
             {
+                //LOG EXCEPTION
                 throw e;
+                //return false;
             }
             return status;
         }
 
+        //GET: GET PRODUCT BY PRODUCT ID
         public ProductModel GetProductById(int productId)
         {
             ProductModel productModel = new ProductModel();
@@ -56,12 +65,14 @@ namespace EncoreBL.Repositories
             }
             catch (Exception e)
             {
-
+                //LOG EXCEPTION
                 throw e;
+                //return null;
             }
             return productModel;
         }
 
+        //GET: GET ALL PRODUCTS FROM DATABASE
         public IEnumerable<ProductModel> GetProducts()
         {
             string query = "SELECT * FROM Products WITH (NOLOCK)";
@@ -90,16 +101,14 @@ namespace EncoreBL.Repositories
             }
             catch (Exception e)
             {
-
+                //LOG EXCEPTION
                 throw e;
-            }
-            finally
-            {
-
+                //return null;
             }
             return productList;
         }
 
+        //GET: GET ALL PRODUCTS OF A PERTICULAR VENDOR
         public IEnumerable<ProductModel> GetProductsByVendorId(int vendorId)
         {
             string query = "SELECT * FROM Products WHERE VendorId="+ vendorId;
@@ -129,16 +138,14 @@ namespace EncoreBL.Repositories
             }
             catch (Exception e)
             {
-
+                //LOG EXCEPTION
                 throw e;
-            }
-            finally
-            {
-
+                //return null;
             }
             return productList;
         }
 
+        //GET: GET ALL THE PRODUCT CATEGORIES AVAILABLE
         public IEnumerable<CategoryModel> GetCategories()
         {
             string query = "SELECT * FROM Category WITH (NOLOCK)";
@@ -158,12 +165,14 @@ namespace EncoreBL.Repositories
             }
             catch (Exception e)
             {
-
+                //LOG EXCEPTION
                 throw e;
+                //return null;
             }
             return categoryList;
         }
 
+        //POST: UPDATE EXISTING PRODUCT
         public bool UpdateProduct(ProductModel productModel)
         {
             Product product = new Product();
@@ -175,11 +184,14 @@ namespace EncoreBL.Repositories
             }
             catch (Exception e)
             {
+                //LOG EXCEPTION
                 throw e;
+                //return false;
             }
             return status;
         }
 
+        //POST: DELETE PRODUCT FORM DATABASE
         public bool DeleteProduct(int id)
         {
             bool status = false;
@@ -189,11 +201,14 @@ namespace EncoreBL.Repositories
             }
             catch (Exception e)
             {
+                //LOG EXCEPTION
                 throw e;
+                //return false;
             }
             return status;
         }
 
+        //POST: ADD PRODUCT TO RENTED_PRODUCTS
         public bool RentNewProduct(RentProductModel rentProductModel)
         {
             RentProduct rentProduct = new RentProduct();
@@ -205,11 +220,14 @@ namespace EncoreBL.Repositories
             }
             catch (Exception e)
             {
+                //LOG EXCEPTION
                 throw e;
+                //return false;
             }
             return status;
         }
 
+        //POST: GET ALL PRODUCTS RENTED ON BY A PERTICULAR CUSTOMER
         public IEnumerable<RentProductModel> GetRentedProductsByUserId(int id)
         {
             string query = "SELECT * FROM RentProduct WHERE UserId="+id;
@@ -239,11 +257,14 @@ namespace EncoreBL.Repositories
             }
             catch (Exception e)
             {
+                //LOG EXCEPTION
                 throw e;
+                //return null;
             }
             return productList;
         }
 
+        //POST: GET ALL PRODUCTS HOSTED BY A PERTICULAR VENDOR
         public IEnumerable<RentProductModel> GetRentedProductsByVendorId(int vendorId)
         {
             string query = "SELECT * FROM RentProduct WHERE VendorId=" + vendorId;
@@ -273,11 +294,14 @@ namespace EncoreBL.Repositories
             }
             catch (Exception e)
             {
+                //LOG EXCEPTION
                 throw e;
+                //return null;
             }
             return productList;
         }
 
+        //POST: UPDATE BOOKING_STATUS TO TRUE (BY VENDOR ONLY)
         public bool ApproveBookingStatus(int productId)
         {
             bool status = false;
@@ -287,11 +311,14 @@ namespace EncoreBL.Repositories
             }
             catch (Exception e)
             {
+                //LOG EXCEPTION
                 throw e;
+                //return false;
             }
             return status;
         }
 
+        //POST: UPDATE PRODUCT_AVAILABILITY_STATUS TO TRUE (BY VENDOR ONLY)
         public bool MakeProductUnavailable(int productId)
         {
             bool status = false;
@@ -301,7 +328,9 @@ namespace EncoreBL.Repositories
             }
             catch (Exception e)
             {
+                //LOG EXCEPTION
                 throw e;
+                //return false;
             }
             return status;
         }

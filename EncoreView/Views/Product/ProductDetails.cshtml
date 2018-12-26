@@ -147,7 +147,17 @@
                     <div class="col-md-6 float-right">
                         <br />
                         <div class="form-group">
-                            <input type="submit" value="Apply For Rent" class="btn btn-success" />
+                            @{
+                                if (Model.PAvailability)
+                                {
+                                    <input type="submit" value="Apply For Rent" class="btn btn-success" />
+                                }
+                                else
+                                {
+                                    <p class="text-danger">Currently this vehicle is not available for booking!</p>
+                                    <input type="submit" value="Notify me" class="btn btn-danger" disabled />
+                                }
+                            }
                         </div>
                     </div>
                 </div>

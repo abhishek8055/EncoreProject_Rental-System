@@ -21,7 +21,10 @@
         </button>
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
             <ul class="navbar-nav">
-                <li class="nav-item mx-2 text-white-50">
+                <li class="nav-item ml-5">
+                    @Html.ActionLink("Home", "RedirectTo", "Account", null, new { @class = "text-white" })
+                </li>
+                <li class="nav-item mx-4">
                     @Html.ActionLink("About", "About", "Home", null, new { @class = "text-white" })
                 </li>
                 <li class="nav-item">
@@ -39,8 +42,19 @@
                                 Welcome&nbsp;&nbsp;<b style="color:teal">@email</b><span class="glyphicon glyphicon-triangle-bottom"></span>
                             </a>
                             <div class="dropdown-menu pl-2">
-                                <div>@Html.ActionLink("My Account", "UserDetails", "User", new { email=@email, roleId=@roleId}, null)</div>
-                                <div>@Html.ActionLink("My Orders", "MyOrders", "User")</div>
+                                <div>@Html.ActionLink("My Account", "UserDetails", "User", new { email = @email, roleId = @roleId }, null)</div>
+                                @if (roleId == 1)
+                                {
+                                    <div>@Html.ActionLink("Feedbacks", "FeedbackList", "Admin")</div>
+                                }
+                                @if (roleId == 2)
+                                {
+                                    <div>@Html.ActionLink("Order Requests", "ProductOrderList", "User")</div>
+                                }
+                                @if (roleId == 3)
+                                {
+                                    <div>@Html.ActionLink("My Orders", "MyOrders", "User")</div>
+                                }
                                 <div>@Html.ActionLink("Logout", "LogOut", "Account")</div>
                             </div>
                         </li>

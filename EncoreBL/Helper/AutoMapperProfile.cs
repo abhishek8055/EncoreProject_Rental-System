@@ -8,6 +8,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
+//@AUTHOR ABHISHEK DWIVEDI
+//AUTOMAPPER CLASS MAPS TWO OBJECTS
+
 namespace EncoreBL.Helper
 {
     public class AutoMapperProfile : Profile

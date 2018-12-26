@@ -8,17 +8,25 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+//@AUTHOR ABHISHEK DWIVEDI
+//PRODUCT CONTROLLER MANAGES ALL PRODUCT SPECIFIC VIEWS/TASKS
+
 namespace EncoreView.Controllers
 {
     [Route("Product/{action?}/{id?}")]
     public class ProductController : Controller
     {
+        //GET: INSTANCE OF PRODUCTACTIONS CLASS OF BUSINESS LAYER
         ProductActions productActionContext = new ProductActions();
 
+        //NO DEFAULT VIEW 
         public ActionResult Index()
         {
             return View();
         }
+
+
+
 
         //POST: ADD NEW PRODUCT
         //ONLY VENDOR IS AUTHORISED
@@ -63,6 +71,10 @@ namespace EncoreView.Controllers
             ViewBag.Category = categoryList;
             return View(product);
         }
+
+
+
+
 
         //POST: UPDATE PRODUCT
         public ActionResult Update(ProductModel uProduct)
@@ -110,6 +122,10 @@ namespace EncoreView.Controllers
             return RedirectToAction("EditProduct", "Product");
         }
 
+
+
+
+
         //POST: DELETE PRODUCT
         //ONLY ADMIN AND VENDOR IS AUTHORISED
         public ActionResult Delete(int id)
@@ -122,6 +138,10 @@ namespace EncoreView.Controllers
             TempData["Deleted"] = true;
             return RedirectToAction("RedirectTo", "Account");
         }
+
+
+
+
 
         //GET: GET PRODUCT DETAILS BY PRODUCT ID
         //ONLY CUSTOMER IS AUTHORISED
@@ -176,8 +196,14 @@ namespace EncoreView.Controllers
             return View();
         }
 
+
+
+
+
+        //ADD PRODUCT TO CUSTOMER ACCOUNT I.E RENTED PRODUCT
         public ActionResult RentProduct(ProductModel product)
-        {           
+        {   
+            //CREATE INSTANCE OF RENT PRODUCT MODEL CLASS
             RentProductModel rProduct = new RentProductModel()
             {
                 ProductId = product.PId,
@@ -189,7 +215,7 @@ namespace EncoreView.Controllers
                 ProductName = product.PName
             };
             rProduct.PayStatus = true;
-            rProduct.PayableAmount = product.PUnitCost;
+            rProduct.PayableAmount = product.PUnitCost * (product.PEndDate - product.PStartDate).TotalDays;
             rProduct.BookingStatus = false;
             UserLoginModel user = (UserLoginModel)HttpContext.Session["USER"];
             rProduct.UserId = user.Id;
@@ -209,11 +235,8 @@ namespace EncoreView.Controllers
 
 
 
-
-
-
         #region SaveImages
-        // return ProductModel object
+        // RETURN PRODUCTMODEL OBJECT
         private ProductModel SaveImages(AddProductModel addProduct)
         {
             ProductModel productModel = null;

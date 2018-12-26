@@ -1,4 +1,5 @@
-﻿using System;
+﻿//@AUTHOR ABHISHEK DWIVEDI
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -39,7 +40,7 @@ namespace EncoreML
         public int VendorId { get; set; }
 
         public virtual CategoryModel Category { get; set; }
-        public virtual UserModel User { get; set; }
+        public virtual UserLoginModel User { get; set; }
         public virtual ProductModel Product { get; set; }
     }
 }

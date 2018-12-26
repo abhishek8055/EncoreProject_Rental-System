@@ -6,10 +6,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
+//@AUTHOR ABHISHEK DWIVEDI
+
+//USER_ACTION_DAL IS A DATA ACCESS LAYER CLASS
+//IT MANAGES ALL THE CUSTOMER/VENDOR/ADMIN SPECIFIC QUERIES
+
 namespace EncoreDAL
 {
     public class UserActionDAL
     {
+        //GET : INSTANCE OF DBAGENT CLASS
         public DBAgent dbContext
         {
             get
@@ -18,6 +25,7 @@ namespace EncoreDAL
             }
         }
 
+        //POST: ADD NEW USER (CUSTOMER/VENDOR) TO THE DATABASE
         public bool RegisterUser(UserLogin user)
         {
             SqlConnection con = null;
@@ -25,6 +33,8 @@ namespace EncoreDAL
             int rowsUpdated = 0;
             try
             {
+                //AUTO DISPOSABLE
+                //STORED PROCEDURE : spAddNewUser
                 using (con = dbContext.Connect())
                 using (cmd = new SqlCommand("spAddNewUser", con))
                 {
@@ -38,6 +48,8 @@ namespace EncoreDAL
             }
             catch (Exception e)
             {
+                //LOG EXCEPTION
+                //***********//
                 return false;
             }
             finally
@@ -54,6 +66,7 @@ namespace EncoreDAL
             }
         }
 
+        //GET: VALIDATING USER AUTHENTICATION (LOGING)
         public DataSet ValidUser(string email, string password)
         {
             SqlConnection con = null;
@@ -62,6 +75,8 @@ namespace EncoreDAL
             DataSet ds = new DataSet();
             try
             {
+                //AUTO DISPOSABLE
+                //STORED PROCEDURE : spUserLogin
                 using (con = dbContext.Connect())
                 using (cmd = new SqlCommand("spUserLogin", con))
                 {
@@ -76,11 +91,14 @@ namespace EncoreDAL
             }
             catch (Exception e)
             {
+                //LOG EXCEPTION
                 throw e;
+                //return null;
             }
             return ds;
         }
 
+        //POST: ADD USER DETAILS
         public bool AddUserDetails(User user)
         {
             SqlConnection con = null;
@@ -88,6 +106,8 @@ namespace EncoreDAL
             int rowsUpdated = 0;
             try
             {
+                //AUTO DISPOSABLE
+                //STORED PROCEDURE : spAddUserDetails
                 using (con = dbContext.Connect())
                 using (cmd = new SqlCommand("spAddUserDetails", con))
                 {
@@ -107,6 +127,8 @@ namespace EncoreDAL
             }
             catch (Exception e)
             {
+                //LOG EXCEPTION
+                //throw e;
                 return false;
             }
             finally
@@ -122,7 +144,8 @@ namespace EncoreDAL
                 return true;
             }
         }
-
+        
+        //POST: UPDATE USER DETAILS
         public bool UpdateUserDetails(User user)
         {
             SqlConnection con = null;
@@ -130,6 +153,8 @@ namespace EncoreDAL
             int rowsUpdated = 0;
             try
             {
+                //AUTO DISPOSABLE
+                //STORED PROCEDURE : spUpdateUserDetails
                 using (con = dbContext.Connect())
                 using (cmd = new SqlCommand("spUpdateUserDetails", con))
                 {
@@ -148,6 +173,8 @@ namespace EncoreDAL
             }
             catch (Exception e)
             {
+                //LOG EXCEPTION
+                //throw e;
                 return false;
             }
             finally

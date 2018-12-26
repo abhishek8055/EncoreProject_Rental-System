@@ -6,10 +6,15 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+//@AUTHOR ABHISHEK DWIVEDI
+//ACCOUNT CONTROLLER MANAGES ALL ACCOUNT RELATED TASKS
+
+
 namespace EncoreView.Controllers
 {
     public class AccountController : Controller
     {
+        //GET: INSTANCE OF USERACTIONS CLASS OF BUSINESS LAYER
         UserActions userActionContext = new UserActions();
 
         //LOGIN AND REGISTRATION FORM
@@ -56,7 +61,9 @@ namespace EncoreView.Controllers
                 return RedirectToAction("VendorIndex", "User");
             }
             else
+            {
                 return RedirectToAction("Index", "User");
+            }
         }
 
         //LOGOUT METHOD

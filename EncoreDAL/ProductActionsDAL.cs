@@ -7,10 +7,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
+//@AUTHOR ABHISHEK DWIVEDI
+
+//PRODUCT_ACTION_DAL IS A DATA ACCESS LAYER CLASS
+//IT HANDLES ALL PRODUCT SPECIFIC DATABASE QUERIES
+
 namespace EncoreDAL
 {
     public class ProductActionsDAL 
     {
+        //GET: DBAGENT CONTEXT
         public DBAgent dbContext
         {
             get
@@ -19,6 +26,7 @@ namespace EncoreDAL
             }
         }
 
+        //POST: ADD NEW PRODUCT METHOD
         public bool AddProduct(Product product)
         {
             SqlConnection con = null;
@@ -27,6 +35,8 @@ namespace EncoreDAL
 
             try
             {
+                //AUTO DISPOSABLE
+                //STORED PROCEDURE : spAddNewProduct
                 using (con = dbContext.Connect())
                 using (cmd = new SqlCommand("spAddNewProduct", con))
                 {
@@ -50,7 +60,9 @@ namespace EncoreDAL
             }
             catch (Exception e)
             {
+                //LOG EXCEPTION
                 throw e;
+                //return false;
             }
             finally
             {
@@ -69,6 +81,7 @@ namespace EncoreDAL
             }
         }
 
+        //POST: UPDATE PRODUCT METHOD
         public bool UpdateProduct(Product product)
         {
             SqlConnection con = null;
@@ -77,6 +90,8 @@ namespace EncoreDAL
 
             try
             {
+                //AUTO DISPOSABLE
+                //STORED PROCEDURE : spUpdateProduct
                 using (con = dbContext.Connect())
                 using (cmd = new SqlCommand("spUpdateProduct", con))
                 {
@@ -99,7 +114,9 @@ namespace EncoreDAL
             }
             catch (Exception e)
             {
+                //LOG EXCEPTION
                 throw e;
+                //return false;
             }
             finally
             {
@@ -118,6 +135,7 @@ namespace EncoreDAL
             }
         }
 
+        //POST: DELETE PRODUCT METHOD
         public bool DeleteProduct(int id)
         {
             SqlConnection con = null;
@@ -126,6 +144,8 @@ namespace EncoreDAL
 
             try
             {
+                //AUTO DISPOSABLE
+                //STORED PROCEDURE : spDeleteProduct
                 using (con = dbContext.Connect())
                 using (cmd = new SqlCommand("spDeleteProduct", con))
                 {
@@ -138,7 +158,9 @@ namespace EncoreDAL
             }
             catch (Exception e)
             {
+                //LOG EXCEPTION
                 throw e;
+                //return false;
             }
             finally
             {
@@ -157,6 +179,7 @@ namespace EncoreDAL
             }
         }
 
+        //POST: ADD PRODUCT TO RENT_PRODUCT TABLE (USER CART)
         public bool RentNewProduct(RentProduct product)
         {
             SqlConnection con = null;
@@ -165,6 +188,8 @@ namespace EncoreDAL
 
             try
             {
+                //AUTO DISPOSABLE
+                //STORED PROCEDURE : spRentNewProduct
                 using (con = dbContext.Connect())
                 using (cmd = new SqlCommand("spRentNewProduct", con))
                 {
@@ -188,7 +213,9 @@ namespace EncoreDAL
             }
             catch (Exception e)
             {
+                //LOG EXCEPTION
                 throw e;
+                //return false;
             }
             finally
             {
@@ -207,6 +234,7 @@ namespace EncoreDAL
             }
         }
 
+        //POST: UPDATE QUERY TO SET BOOKING STATUS : TRUE I.E APPROVING PRODUCT TO CUSTOMER
         public bool ApproveBookingStatus(int id)
         {
             SqlConnection con = null;
@@ -215,6 +243,8 @@ namespace EncoreDAL
 
             try
             {
+                //AUTO DISPOSABLE
+                //STORED PROCEDURE : spApproveBooking
                 using (con = dbContext.Connect())
                 using (cmd = new SqlCommand("spApproveBooking", con))
                 {
@@ -227,8 +257,9 @@ namespace EncoreDAL
             }
             catch (Exception e)
             {
-                //USE LOGGER
-                return false;
+                //LOG THIS EXCEPTION
+                throw e;
+                //return false;
             }
             finally
             {
@@ -247,6 +278,7 @@ namespace EncoreDAL
             }
         }
 
+        //POST: ONCE PRODUCT IS RENTED, MAKE IT UNAVAILABLE FOR OTHER CUSTOMERS
         public bool MakeProductUnavailable(int id)
         {
             SqlConnection con = null;
@@ -255,6 +287,8 @@ namespace EncoreDAL
 
             try
             {
+                //AUTO DISPOSABLE
+                //STORED PROCEDURE : spMakeProductUnavailable
                 using (con = dbContext.Connect())
                 using (cmd = new SqlCommand("spMakeProductUnavailable", con))
                 {
@@ -267,8 +301,9 @@ namespace EncoreDAL
             }
             catch (Exception e)
             {
-                //USE LOGGER
-                return false;
+                //LOG EXCEPTION
+                throw e;
+                //return false;
             }
             finally
             {

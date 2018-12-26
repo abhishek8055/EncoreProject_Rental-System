@@ -23,7 +23,7 @@ namespace EncoreDAL.Entities
         public int VendorId { get; set; }
 
         public virtual Category Category { get; set; }
-        public virtual User User { get; set; }
+        public virtual UserLogin UserLogin { get; set; }
         public virtual Product Product { get; set; }
     }
 }

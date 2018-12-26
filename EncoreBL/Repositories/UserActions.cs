@@ -10,21 +10,39 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
+//@AUTHOR ABHISHEK DWIVEDI
+//USER_ACTIONS CLASS IS A BUSINESS LAYER CLASS WHICH IMPLEMENTS IUSER INTERFACE 
+//USER_ACTIONS CLASS MAPS ALL PRODUCT RELATED QUERIES TO THE PRODUCT_ACTIONS_DAL (DAL) CLASS
+
+
 namespace EncoreBL.Repositories
 {
     public class UserActions : IUser
     {
+        //GET: GETTING INSTANCE OF USER_ACTIONS_DAL (DAL CLASS)
         UserActionDAL db = new UserActionDAL();
 
+        //POST: REGISTER NEW USER TO DATABASE
         public bool AddUser(UserLoginModel mUser)
         {
             UserLogin user = new UserLogin();
             bool status = false;
             Mapper.Map(mUser, user);
-            status = db.RegisterUser(user);
+            try
+            {
+                status = db.RegisterUser(user);
+            }
+            catch(Exception e)
+            {
+                //LOG EXCEPTION
+                //throw e;
+                return false;
+            }
             return status;
         }
 
+        //GET: GET USER BY EMAIL ID (UNIQUE)
         public UserModel GetUserByEmail(string emailId, int roleId)
         {
             UserModel user = new UserModel();
@@ -46,11 +64,14 @@ namespace EncoreBL.Repositories
             }
             catch(Exception e)
             {
+                //LOG EXCEPTION
+                //throw e;
                 return null;
             }
             return user;
         }
 
+        //GET: GET ALL USERS FROM DATABASE
         public IEnumerable<UserModel> GetUsers()
         {
             string query = "SELECT * FROM Users WITH (NOLOCK)";
@@ -76,11 +97,14 @@ namespace EncoreBL.Repositories
             }
             catch (Exception e)
             {
+                //LOG EXCEPTION
                 throw e;
+                //return null;
             }
             return userList;
         }
 
+        //GET: VERIFY USER CREDENTIALS BY EMAIL AND PASSWORD
         public UserLoginModel Login(string email, string password)
         {
             UserLoginModel user = new UserLoginModel();
@@ -99,11 +123,14 @@ namespace EncoreBL.Repositories
             }
             catch (Exception e)
             {
-                throw e;
+                //LOG EXCEPTION
+                //throw e;
+                return null;
             }
             return user;
         }
 
+        //POST: ADD FEEDBACK TO DATABASE
         public bool FeedbackBL(FeedbackModel mFeedback)
         {
             Feedback feedback = new Feedback();
@@ -115,11 +142,14 @@ namespace EncoreBL.Repositories
             }
             catch (Exception e)
             {
+                //LOG EXCEPTION
                 throw e;
+                //return false;
             }
             return status;
         }
 
+        //GET: GET ALL FEEDBACKS FROM DATABASE
         public IEnumerable<FeedbackModel> GetFeedbacks()
         {
             string query = "SELECT * FROM Feedback WITH (NOLOCK)";
@@ -142,29 +172,49 @@ namespace EncoreBL.Repositories
             }
             catch (Exception e)
             {
+                //LOG EXCEPTION
                 throw e;
+                //return null;
             }
             return feedbackList;
         }
 
+        //POST: ADD USER'S PERSONAL DETAILS TO DATABASE
         public bool AddUserDetails(UserModel mUser)
         {
             User user = new User();
             bool status = false;
             Mapper.Map(mUser, user);
-            status = db.AddUserDetails(user);
+            try
+            {
+                status = db.AddUserDetails(user);
+            }
+            catch(Exception e)
+            {
+                //LOG EXCEPTION
+                throw e;
+                //return false;
+            }
             return status;
         }
 
+        //POST: UPDATE USER'S PERSONAL DETAILS
         public bool UpdateUserDetails(UserModel mUser)
         {
             User user = new User();
             bool status = false;
             Mapper.Map(mUser, user);
-            status = db.UpdateUserDetails(user);
+            try
+            {
+                status = db.UpdateUserDetails(user);
+            }
+            catch(Exception e)
+            {
+                //LOG EXCEPTION
+                throw e;
+                //return false;
+            }
             return status;
         }
-
-
     }
 }

@@ -7,11 +7,16 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+//@AUTHOR ABHISHEK DWIVEDI
+//USER CONTROLLER MANAGES ALL USER (CUSTOMER/VENDOR/ADMIN) SPECIFIC VIEWS/TASKS
+
 namespace EncoreView.Controllers
 {
     public class UserController : Controller
     {
+        //GET: INSTANCE OF USERACTIONS CLASS OF BUSINESS LAYER
         UserActions userActionContext = new UserActions();
+        //GET: INSTANCE IF PRODUCTACTIONS CLASS OF BUSINESS LAYER
         ProductActions productActionContext = new ProductActions();
 
         // GET: HOME PAGE FOR CUSTOMER
@@ -70,6 +75,7 @@ namespace EncoreView.Controllers
             return RedirectToAction("Index", "Account");
         }
 
+        //USER DETAILS PAGE
         public ActionResult UserDetails(string email, int roleId)
         {
             UserModel user = new UserModel();
@@ -77,6 +83,7 @@ namespace EncoreView.Controllers
             return View(user);
         }
 
+        //UPDATE USER PROFILE
         public ActionResult UpdateUserProfile(UserModel user)
         {
             int roleId = Convert.ToInt32(HttpContext.Session["ROLE"]);
@@ -96,7 +103,7 @@ namespace EncoreView.Controllers
             if (!status)
             {
                 TempData["UpdateFail"] = true;
-                return RedirectToAction("UserDetails", "User");
+                return RedirectToAction("UserDetails", new { email = user.UEmail, roleId = user.URoleId });
             }
             //IF PROFILE UPDATION SUCCEED
             else
@@ -106,15 +113,23 @@ namespace EncoreView.Controllers
             return RedirectToAction("UserDetails", new { email=user.UEmail, roleId=user.URoleId});
         }
 
+        //ONLY CUSTOMER IS AUTHORISED
+        //CUSTOMER ORDER LIST (HISTORY/CART) 
         public ActionResult MyOrders()
         {
             UserLoginModel user = (UserLoginModel)HttpContext.Session["USER"];
+            if(user == null)
+            {
+                RedirectToAction("RedirectTo", "Account");
+            }
             int id = user.Id;
             IEnumerable<RentProductModel> rentedProductList = null;
             rentedProductList = productActionContext.GetRentedProductsByUserId(id);
             return View(rentedProductList);
         }
 
+        //VENDOR IS AUTHORISED ONLY
+        //VENDOR'S RENTED-ON LIST OF PRODUCT
         public ActionResult ProductOrderList()
         {
             UserLoginModel user = (UserLoginModel)HttpContext.Session["USER"];
@@ -124,11 +139,16 @@ namespace EncoreView.Controllers
             return View(productList);
         }
 
+        //VENDOR IS AUTHORISED ONLY
+        //APPROVE ORDER REQUESTS FROM CUSTOMERS
         public ActionResult ApproveOrder(int id, int productId)
         {
             bool status = productActionContext.ApproveBookingStatus(id);
-            
-            bool productLock = productActionContext.MakeProductUnavailable(productId);
+            bool productLock = false;
+            if (status)
+            {
+                productLock = productActionContext.MakeProductUnavailable(productId);
+            }
             if (!productLock || !status)
             {
                 TempData["ERROR"] = true;
@@ -147,7 +167,7 @@ namespace EncoreView.Controllers
             {
                 if (user.UploadImage != null)
                 {
-                    //Save Image 1
+                    //Save Image
                     var file = user.UploadImage;
                     user.UPhoto = SaveImage(file);
                 }
