@@ -1,5 +1,6 @@
 ﻿using EncoreBL.Repositories;
 using EncoreML;
+using log4net;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,10 @@ namespace EncoreView.Controllers
 {
     public class AccountController : Controller
     {
+        //LOGGER INITIALIZATION
+        readonly ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+
         //GET: INSTANCE OF USERACTIONS CLASS OF BUSINESS LAYER
         UserActions userActionContext = new UserActions();
 
@@ -69,7 +74,15 @@ namespace EncoreView.Controllers
         //LOGOUT METHOD
         public ActionResult LogOut()
         {
-            Session.Abandon();
+            try
+            {
+                Session.Abandon();
+            }
+            catch(Exception e)
+            {
+                //LOG EXCEPTION
+                logger.Error("Session not destroyed by LogOut() in Account Controller : ", e);
+            }
             return RedirectToAction("Index", "Home");
         }
     }

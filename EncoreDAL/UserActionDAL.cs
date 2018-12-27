@@ -1,4 +1,5 @@
-﻿using System;
+﻿using log4net;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -16,6 +17,9 @@ namespace EncoreDAL
 {
     public class UserActionDAL
     {
+        //LOGGER INITIALIZATION
+        readonly ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         //GET : INSTANCE OF DBAGENT CLASS
         public DBAgent dbContext
         {
@@ -49,6 +53,7 @@ namespace EncoreDAL
             catch (Exception e)
             {
                 //LOG EXCEPTION
+                logger.Fatal("Exception occurred at RegisterUser() in UserActionsDAL (DAL): ", e);
                 //***********//
                 return false;
             }
@@ -92,8 +97,8 @@ namespace EncoreDAL
             catch (Exception e)
             {
                 //LOG EXCEPTION
-                throw e;
-                //return null;
+                logger.Fatal("Exception occurred at Login() in UserActionsDAL (DAL): ", e);
+                return null;
             }
             return ds;
         }
@@ -128,7 +133,7 @@ namespace EncoreDAL
             catch (Exception e)
             {
                 //LOG EXCEPTION
-                //throw e;
+                logger.Fatal("Exception occurred at AddUserDetails() in UserActionsDAL (DAL) : ", e);
                 return false;
             }
             finally
@@ -174,7 +179,7 @@ namespace EncoreDAL
             catch (Exception e)
             {
                 //LOG EXCEPTION
-                //throw e;
+                logger.Fatal("Exception occurred at UpdateuserDetails() in UserActionsDAL (DAL): ", e);
                 return false;
             }
             finally

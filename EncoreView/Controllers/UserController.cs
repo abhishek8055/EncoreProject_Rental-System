@@ -1,5 +1,6 @@
 ﻿using EncoreBL.Repositories;
 using EncoreML;
+using log4net;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,8 +15,13 @@ namespace EncoreView.Controllers
 {
     public class UserController : Controller
     {
+        //LOGGER INITIALIZATION
+        readonly ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+
         //GET: INSTANCE OF USERACTIONS CLASS OF BUSINESS LAYER
         UserActions userActionContext = new UserActions();
+
         //GET: INSTANCE IF PRODUCTACTIONS CLASS OF BUSINESS LAYER
         ProductActions productActionContext = new ProductActions();
 
@@ -23,9 +29,20 @@ namespace EncoreView.Controllers
         public ActionResult Index()
         {        
             IEnumerable<ProductModel> productList = null;
-            productList = productActionContext.GetProducts();
+            try
+            {
+                productList = productActionContext.GetProducts();
+            }
+            catch(Exception e)
+            {
+                //LOG EXCEPTION
+                logger.Error("Product List not loaded by Index() of User Controller : ", e);
+            }
             return View(productList);
         }
+
+
+
 
         // GET: HOME PAGE FOR VENDOR
         public ActionResult VendorIndex()
@@ -36,11 +53,22 @@ namespace EncoreView.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
+
             int vendorId = user.Id;
             IEnumerable<ProductModel> productList = null;
-            productList = productActionContext.GetProductsByVendorId(vendorId);
+            try
+            {
+                productList = productActionContext.GetProductsByVendorId(vendorId);
+            }
+            catch(Exception e)
+            {
+                //LOG EXCEPTION
+                logger.Error("Product List of Vendor is not loaded by VendorIndex() of User Controller : ", e);
+            }
             return View(productList);
         }
+
+
 
         //POST: ADD NEW USER (CUSTOMER/VENDOR)
         public ActionResult RegisterUser(string email, string password, string rpassword, int userType)
@@ -54,12 +82,14 @@ namespace EncoreView.Controllers
             user.Email = email;
             user.Password = password;
             user.RoleId = Convert.ToInt32(userType);
+
             //IF ENTERED PASSWORD NOT MATCH
             if (password != rpassword)
             {
                 TempData["PasswordMissMatch"] = true;
                 return RedirectToAction("Index", "Account");
             }
+
             bool status = userActionContext.AddUser(user);
             //IF REGISTRATION FAILS
             if (!status)
@@ -75,13 +105,26 @@ namespace EncoreView.Controllers
             return RedirectToAction("Index", "Account");
         }
 
+
+
+
         //USER DETAILS PAGE
         public ActionResult UserDetails(string email, int roleId)
         {
-            UserModel user = new UserModel();
-            user = userActionContext.GetUserByEmail(email, roleId);
+            UserModel user = null;
+            try
+            {
+                user = userActionContext.GetUserByEmail(email, roleId);
+            }
+            catch(Exception e)
+            {
+                //LOG EXCEPTION
+                logger.Error("User Details not loaded by UserDetails() of User Controller : ", e);
+            }
             return View(user);
         }
+
+
 
         //UPDATE USER PROFILE
         public ActionResult UpdateUserProfile(UserModel user)
@@ -113,6 +156,9 @@ namespace EncoreView.Controllers
             return RedirectToAction("UserDetails", new { email=user.UEmail, roleId=user.URoleId});
         }
 
+
+
+
         //ONLY CUSTOMER IS AUTHORISED
         //CUSTOMER ORDER LIST (HISTORY/CART) 
         public ActionResult MyOrders()
@@ -122,11 +168,23 @@ namespace EncoreView.Controllers
             {
                 RedirectToAction("RedirectTo", "Account");
             }
+
             int id = user.Id;
             IEnumerable<RentProductModel> rentedProductList = null;
-            rentedProductList = productActionContext.GetRentedProductsByUserId(id);
+            try
+            {
+                rentedProductList = productActionContext.GetRentedProductsByUserId(id);
+            }
+            catch(Exception e)
+            {
+                //LOG EXCEPTION
+                logger.Error("Rented Product List is not loaded by MyOrders() of User Controller : ", e);
+                //*************//
+            }
             return View(rentedProductList);
         }
+
+
 
         //VENDOR IS AUTHORISED ONLY
         //VENDOR'S RENTED-ON LIST OF PRODUCT
@@ -156,6 +214,12 @@ namespace EncoreView.Controllers
             TempData["ERROR"] = false;
             return RedirectToAction("ProductOrderList", "User");
         }
+
+
+
+
+
+
 
 
         #region SaveProfilePhoto

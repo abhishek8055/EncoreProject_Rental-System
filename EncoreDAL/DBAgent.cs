@@ -1,4 +1,5 @@
 ﻿using EncoreDAL.Entities;
+using log4net;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -19,6 +20,9 @@ namespace EncoreDAL
 {
     public class DBAgent
     {
+        //LOGGER INITIALIZATION
+        readonly ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         //SINGLETON DESIGN PATTERN
         private static DBAgent dbAgent;
         public static DBAgent dbAgentInstance
@@ -45,7 +49,7 @@ namespace EncoreDAL
             catch (Exception sqle)
             {
                 //LOG EXCEPTION
-                throw sqle;
+                logger.Fatal("Connect() in DBAgent of Data Access Layer : ", sqle);
             }
             finally
             {
@@ -74,7 +78,7 @@ namespace EncoreDAL
             catch (Exception sqle)
             {
                 //LOG EXCEPTION
-                throw sqle;
+                logger.Fatal("GetData() in DBAgent of Data Access Layer : ", sqle);
             }
             finally
             {
@@ -120,8 +124,8 @@ namespace EncoreDAL
             catch (Exception e)
             {
                 //LOG EXCEPTION
-                throw e;
-                //return false;
+                logger.Fatal("Feedback() in DBAgent of Data Access Layer : ", e);
+                return false;
             }
             finally
             {

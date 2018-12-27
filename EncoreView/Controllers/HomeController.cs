@@ -1,5 +1,6 @@
 ﻿using EncoreBL.Repositories;
 using EncoreML;
+using log4net;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,12 +15,25 @@ namespace EncoreView.Controllers
 {
     public class HomeController : Controller
     {
+        //INITIALIZING LOGGER
+        readonly ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+        //INITIALIZING USERACTIONS CLASS INSTANCE OF BUSINESS LAYER
         UserActions userActionDbContext = new UserActions();
 
         //HOME PAGE
         public ActionResult Index()
         {
-            ViewBag.Email = Convert.ToString(Session["USEREMAIL"]);
+            try
+            {
+                ViewBag.Email = Convert.ToString(Session["USEREMAIL"]);
+            }
+            catch (Exception e)
+            {
+                //LOG EXCEPTION
+                logger.Error("Index() of Home Controller : ", e);
+            }
+           
             return View();
         }
 
@@ -46,7 +60,9 @@ namespace EncoreView.Controllers
                 TempData["FeedbackFail"] = true;              
             }
             else
+            {
                 TempData["FeedbackFail"] = false;
+            }
             return RedirectToAction("Contact", "Home");
         }
     }

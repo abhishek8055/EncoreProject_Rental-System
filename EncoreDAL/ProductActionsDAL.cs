@@ -1,4 +1,5 @@
 ﻿using EncoreDAL.Entities;
+using log4net;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -17,6 +18,9 @@ namespace EncoreDAL
 {
     public class ProductActionsDAL 
     {
+        //LOGGER INITIALIZATION
+        readonly ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         //GET: DBAGENT CONTEXT
         public DBAgent dbContext
         {
@@ -61,8 +65,8 @@ namespace EncoreDAL
             catch (Exception e)
             {
                 //LOG EXCEPTION
-                throw e;
-                //return false;
+                logger.Fatal("AddProduct() in ProductActionsDAL (DAL): ", e);
+                return false;
             }
             finally
             {
@@ -115,8 +119,8 @@ namespace EncoreDAL
             catch (Exception e)
             {
                 //LOG EXCEPTION
-                throw e;
-                //return false;
+                logger.Fatal("UpdateProduct() in ProductActionsDAL (DAL): ", e);
+                return false;
             }
             finally
             {
@@ -159,8 +163,8 @@ namespace EncoreDAL
             catch (Exception e)
             {
                 //LOG EXCEPTION
-                throw e;
-                //return false;
+                logger.Fatal("DeleteProduct() in ProductActionsDAL (DAL) : ", e);
+                return false;
             }
             finally
             {
@@ -214,8 +218,8 @@ namespace EncoreDAL
             catch (Exception e)
             {
                 //LOG EXCEPTION
-                throw e;
-                //return false;
+                logger.Fatal("RentNewProduct() in ProductActionsDAL (DAL) : ", e);
+                return false;
             }
             finally
             {
@@ -258,8 +262,8 @@ namespace EncoreDAL
             catch (Exception e)
             {
                 //LOG THIS EXCEPTION
-                throw e;
-                //return false;
+                logger.Fatal("ApproveBookingStatus() in ProductActionsDAL (DAL) : ", e);
+                return false;
             }
             finally
             {
@@ -302,8 +306,8 @@ namespace EncoreDAL
             catch (Exception e)
             {
                 //LOG EXCEPTION
-                throw e;
-                //return false;
+                logger.Fatal("MakeProductUnavailable() in ProductActionsDAL (DAL) : ", e);
+                return false;
             }
             finally
             {

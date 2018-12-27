@@ -3,6 +3,7 @@ using EncoreBL.Interfaces;
 using EncoreDAL;
 using EncoreDAL.Entities;
 using EncoreML;
+using log4net;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -20,6 +21,11 @@ namespace EncoreBL.Repositories
 {
     public class UserActions : IUser
     {
+
+        //LOGGER INITIALIZATION
+        readonly ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+
         //GET: GETTING INSTANCE OF USER_ACTIONS_DAL (DAL CLASS)
         UserActionDAL db = new UserActionDAL();
 
@@ -36,7 +42,7 @@ namespace EncoreBL.Repositories
             catch(Exception e)
             {
                 //LOG EXCEPTION
-                //throw e;
+                logger.Fatal("AddUser() in UserActions Class of Business Layer", e);
                 return false;
             }
             return status;
@@ -65,7 +71,7 @@ namespace EncoreBL.Repositories
             catch(Exception e)
             {
                 //LOG EXCEPTION
-                //throw e;
+                logger.Fatal("GetUserByEmailId() in UserActions Class of Business Layer : ", e);
                 return null;
             }
             return user;
@@ -98,8 +104,8 @@ namespace EncoreBL.Repositories
             catch (Exception e)
             {
                 //LOG EXCEPTION
-                throw e;
-                //return null;
+                logger.Fatal("GetUser() in UserActions Class of Business Layer : ", e);
+                return null;
             }
             return userList;
         }
@@ -124,7 +130,7 @@ namespace EncoreBL.Repositories
             catch (Exception e)
             {
                 //LOG EXCEPTION
-                //throw e;
+                logger.Fatal("Login() in UserActions Class of Business Layer : ", e);
                 return null;
             }
             return user;
@@ -143,8 +149,8 @@ namespace EncoreBL.Repositories
             catch (Exception e)
             {
                 //LOG EXCEPTION
-                throw e;
-                //return false;
+                logger.Fatal("EFeedbackBL() in UserActions Class of Business Layer", e);
+                return false;
             }
             return status;
         }
@@ -173,8 +179,8 @@ namespace EncoreBL.Repositories
             catch (Exception e)
             {
                 //LOG EXCEPTION
-                throw e;
-                //return null;
+                logger.Fatal("GetFeedbacks() in UserActions Class of Business Layer : ", e);
+                return null;
             }
             return feedbackList;
         }
@@ -192,8 +198,8 @@ namespace EncoreBL.Repositories
             catch(Exception e)
             {
                 //LOG EXCEPTION
-                throw e;
-                //return false;
+                logger.Fatal("AddUserDetails() in UserActions Class of Business Layer : ", e);
+                return false;
             }
             return status;
         }
@@ -211,8 +217,8 @@ namespace EncoreBL.Repositories
             catch(Exception e)
             {
                 //LOG EXCEPTION
-                throw e;
-                //return false;
+                logger.Fatal("UpdateUserDetails() in UserActions Class of Business Layer : ", e);
+                return false;
             }
             return status;
         }

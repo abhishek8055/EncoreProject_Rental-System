@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using EncoreBL.Repositories;
 using EncoreML;
+using log4net;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,6 +17,10 @@ namespace EncoreView.Controllers
     [Route("Product/{action?}/{id?}")]
     public class ProductController : Controller
     {
+        //LOGGER INITIALIZATION
+        readonly ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+
         //GET: INSTANCE OF PRODUCTACTIONS CLASS OF BUSINESS LAYER
         ProductActions productActionContext = new ProductActions();
 
@@ -32,10 +37,21 @@ namespace EncoreView.Controllers
         //ONLY VENDOR IS AUTHORISED
         public ActionResult ProductForm()
         {
-            IEnumerable<CategoryModel> categoryList = productActionContext.GetCategories();
-            ViewBag.Category = categoryList;
+            try
+            {
+                IEnumerable<CategoryModel> categoryList = productActionContext.GetCategories();
+                ViewBag.Category = categoryList;
+            }
+            catch(Exception e)
+            {
+                //LOG EXCEPTION
+                logger.Error("Categories not loaded by ProductForm() of ProductController : ", e);
+            }
             return View();
+
         }
+
+
 
         //POST: SAVING NEW PRODUCT
         public ActionResult Save(ProductModel product)
@@ -58,15 +74,27 @@ namespace EncoreView.Controllers
             return RedirectToAction("VendorIndex", "User");
         }
 
+
+
         //POST: EDIT PRODUCT
         //ONLY VENDOR AND ADMIN IS AUTHORISED
         public ActionResult EditProduct(int id)
         {
-            ProductModel product = productActionContext.GetProductById(id);
+            ProductModel product = null;
+            try
+            {
+                product = productActionContext.GetProductById(id);
+            }
+            catch(Exception e)
+            {
+                //LOG EXCEPTION
+                logger.Error("Product not loaded by EditProduct() of Product Controller : ", e);
+            }
             if (product == null)
             {
                 return HttpNotFound();
             }
+
             IEnumerable<CategoryModel> categoryList = productActionContext.GetCategories();
             ViewBag.Category = categoryList;
             return View(product);

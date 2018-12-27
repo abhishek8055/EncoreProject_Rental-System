@@ -3,6 +3,7 @@ using EncoreBL.Interfaces;
 using EncoreDAL;
 using EncoreDAL.Entities;
 using EncoreML;
+using log4net;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -18,6 +19,10 @@ namespace EncoreBL.Repositories
 {
     public class ProductActions : IProduct
     {
+        //LOGGER INITIALIZATION
+        readonly ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+
         //GET: INSTANCE OF PRODUCT_ACTIONS_DAL (DAL CLASS)
         ProductActionsDAL db = new ProductActionsDAL();
 
@@ -34,8 +39,8 @@ namespace EncoreBL.Repositories
             catch(Exception e)
             {
                 //LOG EXCEPTION
-                throw e;
-                //return false;
+                logger.Fatal("AddProduct() in ProductActions Class of Business Layer : ", e);
+                return false;
             }
             return status;
         }
@@ -66,8 +71,8 @@ namespace EncoreBL.Repositories
             catch (Exception e)
             {
                 //LOG EXCEPTION
-                throw e;
-                //return null;
+                logger.Fatal("GetProductById() in ProductActions Class of Business Layer : ", e);
+                return null;
             }
             return productModel;
         }
@@ -102,7 +107,7 @@ namespace EncoreBL.Repositories
             catch (Exception e)
             {
                 //LOG EXCEPTION
-                throw e;
+                logger.Fatal("GetProducts() in ProductActions Class of Business Layer : ", e);
                 //return null;
             }
             return productList;
@@ -139,8 +144,8 @@ namespace EncoreBL.Repositories
             catch (Exception e)
             {
                 //LOG EXCEPTION
-                throw e;
-                //return null;
+                logger.Fatal("GetProductsByVendorId() in ProductActions Class of Business Layer : ", e);
+                return null;
             }
             return productList;
         }
@@ -166,8 +171,8 @@ namespace EncoreBL.Repositories
             catch (Exception e)
             {
                 //LOG EXCEPTION
-                throw e;
-                //return null;
+                logger.Fatal("GetCategories() in ProductActions Class of Business Layer : ", e);
+                return null;
             }
             return categoryList;
         }
@@ -185,8 +190,8 @@ namespace EncoreBL.Repositories
             catch (Exception e)
             {
                 //LOG EXCEPTION
-                throw e;
-                //return false;
+                logger.Fatal("UpdateProduct() in ProductActions Class of Business Layer : ", e);
+                return false;
             }
             return status;
         }
@@ -202,8 +207,8 @@ namespace EncoreBL.Repositories
             catch (Exception e)
             {
                 //LOG EXCEPTION
-                throw e;
-                //return false;
+                logger.Fatal("DeleteProduct() in ProductActions Class of Business Layer : ", e);
+                return false;
             }
             return status;
         }
@@ -221,8 +226,8 @@ namespace EncoreBL.Repositories
             catch (Exception e)
             {
                 //LOG EXCEPTION
-                throw e;
-                //return false;
+                logger.Fatal("RentNewProduct() in ProductActions Class of Business Layer : ", e);
+                return false;
             }
             return status;
         }
@@ -258,8 +263,8 @@ namespace EncoreBL.Repositories
             catch (Exception e)
             {
                 //LOG EXCEPTION
-                throw e;
-                //return null;
+                logger.Fatal("GetRentedProductByUserId() in ProductActions Class of Business Layer : ", e);
+                return null;
             }
             return productList;
         }
@@ -295,8 +300,8 @@ namespace EncoreBL.Repositories
             catch (Exception e)
             {
                 //LOG EXCEPTION
-                throw e;
-                //return null;
+                logger.Fatal("GetRentedProductsByVendorId() in ProductActions Class of Business Layer : ", e);
+                return null;
             }
             return productList;
         }
@@ -312,8 +317,8 @@ namespace EncoreBL.Repositories
             catch (Exception e)
             {
                 //LOG EXCEPTION
-                throw e;
-                //return false;
+                logger.Fatal("ApproveBookingStatus() in ProductActions Class of Business Layer : ", e);
+                return false;
             }
             return status;
         }
@@ -329,8 +334,8 @@ namespace EncoreBL.Repositories
             catch (Exception e)
             {
                 //LOG EXCEPTION
-                throw e;
-                //return false;
+                logger.Fatal("MakeProductUnavailable() in ProductActions Class of Business Layer : ", e);
+                return false;
             }
             return status;
         }
